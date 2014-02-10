@@ -1,9 +1,9 @@
-##Ice Slider
+#Ice Slider
 =========
 
-#Multi-purpose highly customizable slider implementation of jquery.hammer.js
+##Multi-purpose highly customizable slider implementation of jquery.hammer.js
 
-#Features:
+##Features:
 - Touch events
 - Mouse events
 - Arrows
@@ -15,21 +15,21 @@
 - Disable slider in desktop sizes(nice for responsive design)
 - Every option is defaulted as disabled, so you can activate only what you want
 
-#The sample implementation is using HTML5 Boilerplate, with some tweaks
+##The sample implementation is using HTML5 Boilerplate, with some tweaks
 
-#Requirements for iceSlider:
+##Requirements for iceSlider:
 Jquery (http://jquery.com)
 modernizr (https://github.com/Modernizr/Modernizr)
 jquery.hammer.js (https://github.com/EightMedia/jquery.hammer.js)
 
-#What is part of the iceSlider:
+##What is part of the iceSlider:
 js/iceSlider.js
 css/iceSlider.css
 
-#Where can I see the javascript for this implementation:
+##Where can I see the javascript for this implementation:
 js/main.js
 
-#Where can I see the HTML and CSS for this implementation:
+##Where can I see the HTML and CSS for this implementation:
 index.html
 
 
