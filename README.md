@@ -18,19 +18,19 @@
 ###The sample implementation is using HTML5 Boilerplate, with some tweaks
 
 ###Requirements for iceSlider:
-Jquery (http://jquery.com)
-modernizr (https://github.com/Modernizr/Modernizr)
-jquery.hammer.js (https://github.com/EightMedia/jquery.hammer.js)
+-Jquery (http://jquery.com)
+-modernizr (https://github.com/Modernizr/Modernizr)
+-jquery.hammer.js (https://github.com/EightMedia/jquery.hammer.js)
 
 ###What is part of the iceSlider:
-js/iceSlider.js
-css/iceSlider.css
+-js/iceSlider.js
+-css/iceSlider.css
 
 ###Where can I see the javascript for this implementation:
-js/main.js
+-js/main.js
 
 ###Where can I see the HTML and CSS for this implementation:
-index.html
+-index.html
 
 
 *This document is under development
