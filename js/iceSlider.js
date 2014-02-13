@@ -1,5 +1,5 @@
 /*
-	Ice Slider v1
+	Ice Slider v1.01
 */
 var iceSlider = {
 	pageWidth : window.innerWidth || document.documentElement.clientWidth,
@@ -52,6 +52,9 @@ var iceSlider = {
 				self.internal.wrapperQuery.addClass('hammer-set');
 				self.internal.wrapperPxSize = self.internal.wrapperQuery.width();
 				self.internal.itemQuery.first().addClass(self.itemActiveClass);
+			    if(Modernizr.csstransitions === false) {
+					self.animation = 'js';
+				}
 				if(self.dots) {
 		    		if (self.dots.substring(0 , 1) === '.') {
 		    			self.error(3);
