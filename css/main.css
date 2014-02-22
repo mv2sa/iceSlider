@@ -339,13 +339,16 @@ main code {
     transition: transform max-height 1s;
 }
 
-main #codeHTML.open,
+main #codeHTML.open {
+    max-height: 115em;
+}
+
 main #codeCSS.open  {
-    max-height: 110em;
+    max-height: 360em
 }
 
 main #codeJS.open {
-    max-height: 60em;
+    max-height: 65em;
 }
 
 .dropCode {
@@ -385,6 +388,8 @@ main #codeJS.open {
 
 #slider1Container {
     position: relative;
+    height: 350px;
+    overflow-y: hidden; 
 }
 
 #slider1Container:after,
@@ -401,6 +406,7 @@ main #codeJS.open {
     position: relative;
     display: block;
     float: left;
+    width: 100%;
     overflow-y: hidden;
     opacity: 0.6;
     background-color: black;
@@ -507,6 +513,12 @@ main #codeJS.open {
         line-height: 500px;
     }
 
+    #slider1Container {
+        position: relative;
+        height: 500px;
+        overflow-y: hidden; 
+    }
+
     #slider1ArrowL,
     #slider1ArrowR {
         font-size: 4em;
@@ -539,6 +551,8 @@ main #codeJS.open {
 
 #slider2Container {
     position: relative;
+    height: 200px;
+    overflow-y: hidden; 
 }
 
 #slider2Container:after,
@@ -557,6 +571,7 @@ main #codeJS.open {
     float: left;
     overflow-y: hidden;
     min-height: 200px;
+    width: 85%;
 }
 
 #slider2Container .slider2Item div {
@@ -584,6 +599,7 @@ main #codeJS.open {
 
     #slider2Container {
         text-align: center;
+        height: auto;
     }
 
     #slider2Container .slider2Item {
