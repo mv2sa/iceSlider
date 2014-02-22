@@ -28,8 +28,10 @@
 ###Where can I see the javascript for this implementation:
 - js/main.js
 
-###Where can I see the HTML and CSS for this implementation:
+###Where can I see the HTML for this implementation:
 - index.html
 
+###Where can I see the CSS for this implementation:
+- css/main.css
 
 *This document is under development
