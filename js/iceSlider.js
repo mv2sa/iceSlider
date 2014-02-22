@@ -1,5 +1,5 @@
 /*
-	Ice Slider v1.05
+	Ice Slider v1.07
 */
 var iceSlider = {
 	pageWidth : window.innerWidth || document.documentElement.clientWidth,
@@ -37,6 +37,7 @@ var iceSlider = {
 			currentItem : 0,
 			autoRun : null,
 			isDesktop : null,
+			updateInQueue : false,
 			mouseover : false
 		};
 		this.init = function() {
@@ -80,7 +81,12 @@ var iceSlider = {
 	    			self.widthController();
 	    		}
 	    		$(window).on("load resize orientationchange", function() {
-	    			self.widthController();
+	    			if(self.internal.updateInQueue && (!self.desktop && iceSlider.pageWidth < 768)) {
+	    				self.internal.updateInQueue = false;
+	    				self.update();
+	    			} else {
+	    				self.widthController();
+	    			}
 				});
 				if(self.autoSlide) {
 					self.internal.autoRun = setInterval(function(){
@@ -111,7 +117,7 @@ var iceSlider = {
 			        });	        			
 				}
 				if (self.centerItem && (!self.desktop && iceSlider.pageWidth < 768)) {
-					self.showPane(0);
+					self.showPane(0, true);
 				}
 				self.hammerHolder = Hammer(self.internal.wrapperQuery, {
 					drag_lock_to_axis: true
@@ -300,33 +306,38 @@ var iceSlider = {
 	        }
 		};
 		this.update = function() {
-			self.internal.itemQuery =  $("> " + self.item, self.wrapper + ' ' + self.container);
-			self.internal.itemCount =  self.internal.itemQuery.length;
-			self.internal.itemQuery.each(function(index) {
-				if($(this).hasClass(self.itemActiveClass)) {
-					self.internal.currentItem = index;
+			if(!self.desktop && iceSlider.pageWidth < 768) {
+				self.internal.itemQuery =  $("> " + self.item, self.wrapper + ' ' + self.container);
+				self.internal.itemCount =  self.internal.itemQuery.length;
+				self.internal.itemQuery.each(function(index) {
+					if($(this).hasClass(self.itemActiveClass)) {
+						self.internal.currentItem = index;
+					}
+				});
+				if(self.dots) {
+					if (self.internal.itemCount === 1 && self.oneItemDotHide === true) {
+						$(self.dots).css('visibility', 'hidden');
+					} else if (self.internal.itemCount > 1 && self.oneItemDotHide === true) {
+						$(self.dots).css('visibility', 'visible');
+					}
+					self.addDots();
 				}
-			});
-			if(self.dots) {
-				if (self.internal.itemCount === 1 && self.oneItemDotHide === true) {
-					$(self.dots).css('visibility', 'hidden');
-				} else if (self.internal.itemCount > 1 && self.oneItemDotHide === true) {
-					$(self.dots).css('visibility', 'visible');
+				self.widthController();
+				if(self.leftArrow && self.internal.currentItem === 0) {
+					$(self.leftArrow).addClass(self.arrowInactiveClass);
+				} else {
+					$(self.leftArrow).removeClass(self.arrowInactiveClass);
 				}
-				self.addDots();
-			}
-			self.widthController();
-			if(self.leftArrow && self.internal.currentItem === 0) {
-				$(self.leftArrow).addClass(self.arrowInactiveClass);
+				if (self.leftArrow && self.internal.currentItem+1 === self.internal.itemCount) {
+					$(self.rightArrow).addClass(self.arrowInactiveClass);  			
+				} else {
+					$(self.rightArrow).removeClass(self.arrowInactiveClass); 
+				}
+				self.showPane(self.internal.currentItem, true);
 			} else {
-				$(self.leftArrow).removeClass(self.arrowInactiveClass);
+				self.internal.updateInQueue = true;
 			}
-			if (self.leftArrow && self.internal.currentItem+1 === self.internal.itemCount) {
-				$(self.rightArrow).addClass(self.arrowInactiveClass);  			
-			} else {
-				$(self.rightArrow).removeClass(self.arrowInactiveClass); 
-			}
-			self.showPane(self.internal.currentItem, true);
+
 		};
 		this.error = function(error) {
 			if(self.debug) {
