@@ -9,7 +9,7 @@
         <title>Ice Slider Samples</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <link rel="stylesheet" href="css/font-awesome.css">
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/iceSlider.css">
@@ -20,139 +20,12 @@
             <!--[if lt IE 7]>
                 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
             <![endif]-->
-            <style>
-            
-                body {
-                    background-color: darkslategray;
-                }
-
-                h1 {
-                    margin: 0;
-                }
-
-                main {
-                    position: relative;
-                    width: 1200px;
-                    background-color: white;
-                    margin: 0 auto;
-                    padding: 50px 10px;
-                }
-
-                #slider1Holder {
-                    position: relative;
-                }
-
-                #slider1Wrapper {
-                    width: 80%;
-                    overflow: hidden;
-                    position: relative;
-                    margin: 0 auto;
-                }
-
-                #slider1Container {
-                    position: relative;
-                }
-
-                #slider1Container:after,
-                #slider1Container:before {
-                    content: " ";
-                    display: block;
-                    clear: both;
-                    visibility: hidden;
-                    line-height: 0;
-                    height: 0;
-                }
-
-                #slider1Container .slider1Item {
-                    position: relative;
-                    display: block;
-                    float: left;
-                    overflow-y: hidden;
-                    min-height: 500px;
-                    opacity: 0.6;
-                    background-color: black;
-                }
-
-                #slider1Container .slider1Item p {
-                    line-height: 500px;
-                    font-size: 100px;
-                    width: 100%;
-                    text-align: center;
-                    margin: 0;
-                    color: white;
-                }
-
-                #slider1Container .slider1Item.active {
-                    opacity: 1;
-                }
-
-                #slider1Container .slider1Item:nth-child(odd) {
-                    background-color: darkblue;
-                }
-
-                #slider1Container .slider1Item:nth-child(even) {
-                    background-color: darkgreen;
-                }
-
-                #slider1ArrowL {
-                    position: absolute;
-                    display: block;
-                    background-image: url(img/arrowL.png);
-                    width: 32px;
-                    height: 32px;
-                    left: 5%;
-                    top: 45%;
-                }
-
-                #slider1ArrowR {
-                    position: absolute;
-                    display: block;
-                    background-image: url(img/arrowR.png);
-                    width: 32px;
-                    height: 32px;
-                    right: 5%;
-                    top: 45%;
-                }
-
-                #slider1ArrowR.inactive,
-                #slider1ArrowL.inactive {
-                    opacity: 0.6;
-                }
-
-                #slider1 #slider1Dots {
-                    text-decoration: none;
-                    text-align: center;
-                    margin: 0.4em 0;
-                }
-
-                #slider1Dots a {
-                    display: inline-block;
-                    margin: 0 0.1em;
-                }
-
-                #slider1Dots a span {
-                    color: #000;
-                    border-radius:  10px;
-                    -moz-border-radius:  10px;
-                    -webkit-border-radius: 10px;    
-                    border: 1px solid #777;
-                    width: 1em;
-                    height: 1em;
-                    display: block;
-                    -moz-box-shadow: 1px 1px 5px #888;
-                    -webkit-box-shadow: 1px 1px 5px #888;
-                    box-shadow: 1px 1px 5px #888;
-                }
-
-                #slider1Dots a.slider1-currentDot span {
-                    background: red;
-                }
-
-            </style>
             <article id="sliderDesc">
-            </article>
-            <section id="slider1">
-                <h1>Full Slider</h1>
+                <h1>Ice Slider</h2>
+                <p>
+                    The Ice Slider surfaced because of a need to have a single solution (that works) capable of attending the needs of most developers
+                </p>
+                <h2>Feature List</h2>
                 <ul>
                     <li>
                         Touch events
@@ -170,14 +43,28 @@
                         Dots
                     </li>
                     <li>
-                        Auto-rotation with hover pause and deactivation upon interaction
+                        Responsive Design friendly
+                    </li>
+                    <li>
+                        Auto-rotation with hover pause and deactivation upon interaction (with option to cancel deactivation)
+                    </li>
+                    <li>
+                        Deactivation of slider controls on desktop size (good for responsive design)
+                    </li>
+                    <li>
+                        CSS3 animation with fallback for older browsers (tested on IE 8+)
+                    </li>
+                    <li>
+                        Offset slider with option to centering active slide
                     </li>
                 </ul>
+            </article>
+            <section id="slider1">
+                <h2>Full Slider</h2>
                 <div id="slider1Holder">
-                    <!--http://www.visualpharm.com-->
-                    <a href="#" id="slider1ArrowL">
+                    <a href="#" id="slider1ArrowL" class="fa fa-arrow-circle-o-left">
                     </a>
-                    <a href="#" id="slider1ArrowR">
+                    <a href="#" id="slider1ArrowR" class="fa fa-arrow-circle-o-right">
                     </a>
                     <div id="slider1Wrapper">
                         <div id="slider1Container">
@@ -199,6 +86,242 @@
                 <div id="slider1Dots">
                 </div>
             </section>
+
+
+            <section id="slider2">
+                <h2>Offset Slider Mobile Only</h2>
+                <div id="slider2Holder">
+                    <div id="slider2Wrapper">
+                        <div id="slider2Container">
+                            <article class="slider2Item">
+                                <div>
+                                    <p>1</p>
+                                </div>
+                            </article>
+                            <article class="slider2Item">
+                                <div>
+                                    <p>2</p>
+                                </div>
+                            </article>
+                            <article class="slider2Item">
+                                <div>
+                                    <p>3</p>
+                                </div>
+                            </article>
+                            <article class="slider2Item">
+                                <div>
+                                    <p>4</p>
+                                </div>
+                            </article>
+                            <article class="slider2Item">
+                                <div>
+                                    <p>5</p>
+                                </div>
+                            </article>
+                            <article class="slider2Item">
+                                <div>
+                                    <p>6</p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
+
+
+
+                <h2>How do I implement it!?</h2>
+                <p>Sample code from the 2 sliders above, feel free to do your own thing!</p>
+                <h3>HTML <a href="#" class="fa fa-chevron-circle-down dropCode" ref="codeHTML"></a></h3>
+                <pre>
+                    <code id="codeHTML">
+&lt;section id="slider1"&gt;
+    &lt;h2&gt;Full Slider&lt;/h2&gt;
+    &lt;div id="slider1Holder"&gt;
+        &lt;a href="#" id="slider1ArrowL" class="fa fa-arrow-circle-o-left"&gt;
+        &lt;/a&gt;
+        &lt;a href="#" id="slider1ArrowR" class="fa fa-arrow-circle-o-right"&gt;
+        &lt;/a&gt;
+        &lt;div id="slider1Wrapper"&gt;
+            &lt;div id="slider1Container"&gt;
+                &lt;article class="slider1Item"&gt;
+                    &lt;p&gt;1&lt;/p&gt;
+                &lt;/article&gt;
+                &lt;article class="slider1Item"&gt;
+                    &lt;p&gt;2&lt;/p&gt;
+                &lt;/article&gt;
+                &lt;article class="slider1Item"&gt;
+                    &lt;p&gt;3&lt;/p&gt;
+                &lt;/article&gt;
+                &lt;article class="slider1Item"&gt;
+                    &lt;p&gt;4&lt;/p&gt;
+                &lt;/article&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id="slider1Dots"&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+
+
+&lt;section id="slider2"&gt;
+    &lt;h2&gt;Offset Slider Mobile Only&lt;/h2&gt;
+    &lt;div id="slider2Holder"&gt;
+        &lt;div id="slider2Wrapper"&gt;
+            &lt;div id="slider2Container"&gt;
+                &lt;article class="slider2Item"&gt;
+                    &lt;div&gt;
+                        &lt;p&gt;1&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+                &lt;article class="slider2Item"&gt;
+                    &lt;div&gt;
+                        &lt;p&gt;2&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+                &lt;article class="slider2Item"&gt;
+                    &lt;div&gt;
+                        &lt;p&gt;3&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+                &lt;article class="slider2Item"&gt;
+                    &lt;div&gt;
+                        &lt;p&gt;4&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+                &lt;article class="slider2Item"&gt;
+                    &lt;div&gt;
+                        &lt;p&gt;5&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+                &lt;article class="slider2Item"&gt;
+                    &lt;div&gt;
+                        &lt;p&gt;6&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+                    </code>
+                </pre>
+                <h3>CSS <a href="#" class="fa fa-chevron-circle-down dropCode" ref="codeCSS"></a></h3>
+                <pre>
+                    <code id="codeCSS">
+#slider2Holder {
+    position: relative;
+}
+
+#slider2Wrapper {
+    width: 80%;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+}
+
+#slider2Container {
+    position: relative;
+}
+
+#slider2Container:after,
+#slider2Container:before {
+    content: " ";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+#slider2Container .slider2Item {
+    position: relative;
+    display: block;
+    float: left;
+    overflow-y: hidden;
+    min-height: 200px;
+}
+
+#slider2Container .slider2Item div {
+    margin: 0 10px;
+}
+
+#slider2Container .slider2Item p {
+    line-height: 200px;
+    font-size: 100px;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    color: white;
+}
+
+#slider2Container .slider2Item:nth-child(odd) div {
+    background-color: darkblue;
+}
+
+#slider2Container .slider2Item:nth-child(even) div {
+    background-color: darkgreen;
+}
+
+@media only screen and (min-width: 768px) {
+
+    #slider2Container {
+        text-align: center;
+    }
+
+    #slider2Container .slider2Item {
+        width: 32%;
+        margin-bottom: 20px;
+        display: inline-block;
+        float: none;
+        text-align: center;
+        min-height: 200px;
+    }
+
+}
+                    </code>
+                </pre>
+                <h3>Javascript <a href="#" class="fa fa-chevron-circle-down dropCode" ref="codeJS"></a></h3>
+                <pre>
+                    <code id="codeJS">
+var slider1, slider2;
+
+$(document).ready(function() {
+    slider1 = new iceSlider.hammerSlider({
+        /* obrigatory */
+        wrapper : '#slider1Wrapper',
+        container : '#slider1Container', 
+        item : '.slider1Item', 
+        /* optionals */
+        itemActiveClass : 'active',
+        leftArrow : '#slider1ArrowL',
+        rightArrow : '#slider1ArrowR',
+        arrowInactiveClass : 'inactive',
+        dots : '#slider1Dots',
+        dotActiveClass : 'slider1-currentDot',
+        autoSlide : true,
+        setTime : 5000
+    });
+    slider1.init();
+
+    slider2 = new iceSlider.hammerSlider({
+        /* obrigatory */
+        wrapper : '#slider2Wrapper',
+        container : '#slider2Container', 
+        item : '.slider2Item', 
+        /* optionals */
+        itemSize : 85,
+        desktop : false,
+        centerItem : true
+    });
+    slider2.init();
+});
+                    </code>
+                </pre>
         </main>
 
         <!--[if lt IE 9]>

@@ -220,8 +220,8 @@ textarea {
    Modify as content requires.
    ========================================================================== */
 
-@media only screen and (min-width: 35em) {
-    /* Style adjustments for viewports that meet the condition */
+@media only screen and (min-width: 768px) {
+
 }
 
 @media print,
@@ -301,4 +301,298 @@ textarea {
     h3 {
         page-break-after: avoid;
     }
+}
+
+
+body {
+    background-color: darkslategray;
+}
+
+h1 {
+    margin: 0;
+}
+
+
+
+main {
+    position: relative;
+    width: 80%;
+    min-width: 320px;
+    background-color: white;
+    margin: 0 auto;
+    padding: 50px 10px;
+}
+
+main code {
+    display: block;
+    background-color: black;
+    color: #fff;
+    border: 2px solid #666;
+    font-size: 0.8em;
+    max-width: 50em;
+    max-height: 1.5em;
+    overflow: hidden;
+    margin: 0 auto;
+    -webkit-transition:  max-height 1s;
+    -moz-transition: -moz-transform max-height 1s;
+    -o-transition: -o-transform max-height 1s;
+    transition: transform max-height 1s;
+}
+
+main #codeHTML.open,
+main #codeCSS.open  {
+    max-height: 110em;
+}
+
+main #codeJS.open {
+    max-height: 60em;
+}
+
+.dropCode {
+    text-decoration: none;
+    color: darkgreen;
+    vertical-align: middle;
+    font-size: 1.5em;
+}
+
+.dropCode.fa-chevron-circle-up {
+    color: darkred;
+}
+
+@media only screen and (min-width: 768px) {
+
+    h1, h2, h3, p {
+        text-align: center;
+    }
+
+    ul {
+        max-width: 35em;
+        margin: 0 auto;
+    }
+
+}
+
+#slider1Holder {
+    position: relative;
+}
+
+#slider1Wrapper {
+    width: 80%;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+}
+
+#slider1Container {
+    position: relative;
+}
+
+#slider1Container:after,
+#slider1Container:before {
+    content: " ";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+#slider1Container .slider1Item {
+    position: relative;
+    display: block;
+    float: left;
+    overflow-y: hidden;
+    opacity: 0.6;
+    background-color: black;
+    -webkit-transition:  opacity 0.4s;
+    -moz-transition: -moz-transform opacity 0.4s;
+    -o-transition: -o-transform opacity 0.4s;
+    transition: transform opacity 0.4s;
+}
+
+#slider1Container .slider1Item p {
+    line-height: 350px;
+    font-size: 100px;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    color: white;
+}
+
+#slider1Container .slider1Item.active {
+    opacity: 1;
+}
+
+#slider1Container .slider1Item:nth-child(odd) {
+    background-color: darkblue;
+}
+
+#slider1Container .slider1Item:nth-child(even) {
+    background-color: darkgreen;
+}
+
+
+#slider1ArrowL,
+#slider1ArrowR {
+    position: absolute;
+    display: block;
+    text-decoration: none;
+    color: #333;
+    font-size: 2em;
+    top: 45%;
+}
+
+#slider1ArrowL {
+    left: 0;
+}
+
+#slider1ArrowR {
+    right: 0;
+}
+
+#slider1ArrowR.inactive,
+#slider1ArrowL.inactive {
+    color: #888;
+}
+
+#slider1 #slider1Dots {
+    text-decoration: none;
+    text-align: center;
+    margin: 0.4em 0;
+}
+
+#slider1Dots a {
+    display: inline-block;
+    margin: 0 0.1em;
+}
+
+#slider1Dots a span {
+    color: #000;
+    border-radius:  10px;
+    -moz-border-radius:  10px;
+    -webkit-border-radius: 10px;    
+    border: 1px solid #777;
+    width: 1em;
+    height: 1em;
+    display: block;
+    -moz-box-shadow: 1px 1px 5px #888;
+    -webkit-box-shadow: 1px 1px 5px #888;
+    box-shadow: 1px 1px 5px #888;
+}
+
+#slider1Dots a.slider1-currentDot span {
+    background: darkgreen;
+}
+
+@media only screen and (min-width: 640px) {
+
+    #slider1ArrowL {
+        left: 1%;
+    }
+
+    #slider1ArrowR {
+        right: 1%;
+    }
+
+    #slider1ArrowL,
+    #slider1ArrowR {
+        font-size: 3em;
+    }
+
+}
+
+@media only screen and (min-width: 1000px) {
+
+    #slider1Container .slider1Item p {
+        line-height: 500px;
+    }
+
+    #slider1ArrowL,
+    #slider1ArrowR {
+        font-size: 4em;
+    }
+
+}
+
+@media only screen and (min-width: 1400px) {
+
+    #slider1ArrowL {
+        left: 3%;
+    }
+
+    #slider1ArrowR {
+        right: 3%;
+    }
+
+}
+
+#slider2Holder {
+    position: relative;
+}
+
+#slider2Wrapper {
+    width: 80%;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+}
+
+#slider2Container {
+    position: relative;
+}
+
+#slider2Container:after,
+#slider2Container:before {
+    content: " ";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+#slider2Container .slider2Item {
+    position: relative;
+    display: block;
+    float: left;
+    overflow-y: hidden;
+    min-height: 200px;
+}
+
+#slider2Container .slider2Item div {
+    margin: 0 10px;
+}
+
+#slider2Container .slider2Item p {
+    line-height: 200px;
+    font-size: 100px;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    color: white;
+}
+
+#slider2Container .slider2Item:nth-child(odd) div {
+    background-color: darkblue;
+}
+
+#slider2Container .slider2Item:nth-child(even) div {
+    background-color: darkgreen;
+}
+
+@media only screen and (min-width: 768px) {
+
+    #slider2Container {
+        text-align: center;
+    }
+
+    #slider2Container .slider2Item {
+        width: 32%;
+        margin-bottom: 20px;
+        display: inline-block;
+        float: none;
+        text-align: center;
+        min-height: 200px;
+    }
+
 }

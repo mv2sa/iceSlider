@@ -1,5 +1,5 @@
 /*
-	Ice Slider v1.01
+	Ice Slider v1.05
 */
 var iceSlider = {
 	pageWidth : window.innerWidth || document.documentElement.clientWidth,
@@ -75,8 +75,10 @@ var iceSlider = {
 					self.internal.isDesktop = true;
 	    		} else if(!self.desktop && iceSlider.pageWidth < 768) {
 					self.internal.isDesktop = false;
+					self.widthController();
+	    		} else {
+	    			self.widthController();
 	    		}
-	    		self.widthController();
 	    		$(window).on("load resize orientationchange", function() {
 	    			self.widthController();
 				});
@@ -108,7 +110,7 @@ var iceSlider = {
 			        	self.next();
 			        });	        			
 				}
-				if (self.centerItem) {
+				if (self.centerItem && (!self.desktop && iceSlider.pageWidth < 768)) {
 					self.showPane(0);
 				}
 				self.hammerHolder = Hammer(self.internal.wrapperQuery, {
