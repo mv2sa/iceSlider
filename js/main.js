@@ -25,8 +25,7 @@ $(document).ready(function() {
 		item : '.slider2Item', 
 		/* optionals */
 		itemSize : 85,
-		desktop : false,
-		centerItem : true
+		desktop : false
 	});
 	slider2.init();
 
