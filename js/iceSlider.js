@@ -1,5 +1,5 @@
 /*
-	Ice Slider v1.07
+	Ice Slider v1.08
 */
 var iceSlider = {
 	pageWidth : window.innerWidth || document.documentElement.clientWidth,
@@ -15,6 +15,7 @@ var iceSlider = {
 	    this.centerItem = typeof obj.centerItem !== 'undefined' ? obj.centerItem : false;
 	    this.itemActiveClass = typeof obj.itemActiveClass !== 'undefined' ? obj.itemActiveClass : 'hammer-currentItem';
 	    this.desktop = typeof obj.desktop !== 'undefined' ? obj.desktop : true;
+	    this.touchEvents = typeof obj.touchEvents !== 'undefined' ? obj.touchEvents : true;
 	    this.leftArrow = typeof obj.leftArrow !== 'undefined' ? obj.leftArrow : false;
 	    this.rightArrow = typeof obj.rightArrow !== 'undefined' ? obj.rightArrow : false;
 	    this.arrowInactiveClass = typeof obj.arrowInactiveClass !== 'undefined' ? obj.arrowInactiveClass : 'hammer-arrowInactive';
@@ -126,7 +127,7 @@ var iceSlider = {
 		};
 		this.handleHammer = function(ev) {
 			ev.gesture.preventDefault();
-			if((!self.desktop && iceSlider.pageWidth < 768) || self.desktop) {
+			if(((!self.desktop && iceSlider.pageWidth < 768) || self.desktop) && self.touchEvents) {
 				self.internal.wrapperQuery.scrollLeft(0);
 				switch(ev.type) {
 		            case 'dragright':
