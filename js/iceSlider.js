@@ -117,7 +117,7 @@ var iceSlider = {
 			        	self.next();
 			        });	        			
 				}
-				if (self.centerItem && (!self.desktop && iceSlider.pageWidth < 768)) {
+				if (self.desktop || (!self.desktop && iceSlider.pageWidth < 768)) {
 					self.showPane(0, true);
 				}
 				self.hammerHolder = Hammer(self.internal.wrapperQuery, {
