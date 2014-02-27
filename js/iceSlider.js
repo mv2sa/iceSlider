@@ -1,5 +1,5 @@
 /*
-	Ice Slider v1.08
+	Ice Slider v1.09
 */
 var iceSlider = {
 	pageWidth : window.innerWidth || document.documentElement.clientWidth,
