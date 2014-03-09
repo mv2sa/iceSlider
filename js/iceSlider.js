@@ -1,5 +1,5 @@
 /*
-Ice Slider v1.1
+Ice Slider v1.11
 */
 'use strict';
 var iceSlider = {
@@ -109,6 +109,7 @@ var iceSlider = {
 					self.internal.wrapperQuery.mouseover(function() {
 				    	clearInterval(self.internal.autoRun); 
 					}).mouseout(function() {
+						clearInterval(self.internal.autoRun); 
 						self.internal.autoRun = setInterval(function(){self.rotate()},self.setTime);
 					});
 				}
@@ -265,6 +266,7 @@ var iceSlider = {
 			} else if ((!self.desktop && iceSlider.pageWidth < 768) && self.internal.isDesktop === true) {
 				self.internal.isDesktop = false;
 				if(self.autoSlide) {
+					clearInterval(self.internal.autoRun);
 					self.internal.autoRun = setInterval(function(){self.rotate()},self.setTime);
 				}
 				self.adjustWidth();
