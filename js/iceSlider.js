@@ -1,8 +1,18 @@
 /*
-	Ice Slider v1.09
+Ice Slider v1.1
 */
+'use strict';
 var iceSlider = {
 	pageWidth : window.innerWidth || document.documentElement.clientWidth,
+	initialized : false,
+	init : function() {
+		iceSlider.initialized = true;
+
+			$(window).resize(function(){
+				iceSlider.pageWidth = window.innerWidth || document.documentElement.clientWidth;
+			});
+
+	},
 	hammerSlider : function(obj) {
 	    var self = this, hammerHolder;
 	    this.dots = typeof obj.dots !== 'undefined' ? obj.dots : false;
@@ -41,6 +51,9 @@ var iceSlider = {
 			updateInQueue : false,
 			mouseover : false
 		};
+		if(iceSlider.initialized === false) {
+			iceSlider.init();
+		}
 		this.init = function() {
 			if(self.wrapper === false || self.container === false) {
 				this.error(1);
@@ -255,7 +268,7 @@ var iceSlider = {
 					self.internal.autoRun = setInterval(function(){self.rotate()},self.setTime);
 				}
 				self.adjustWidth();
-				self.showPane(self.internal.currentItem); 
+				self.showPane(self.internal.currentItem, true); 
 			} else if(self.desktop || !self.internal.isDesktop) {
 				self.adjustWidth();
 			}
@@ -359,12 +372,4 @@ var iceSlider = {
 			}
 		};
 	}
-}
-
-$(document).ready(function() {
-
-	$(window).resize(function(){
-		iceSlider.pageWidth = window.innerWidth || document.documentElement.clientWidth;
-	});
-	
-});
+};
