@@ -586,7 +586,10 @@ main #codeJS.open {
     margin: 0;
     color: white;
 }
-
+#slider2Container .slider2Item p a {
+    color: inherit;
+    text-decoration: none;
+}
 #slider2Container .slider2Item:nth-child(odd) div {
     background-color: darkblue;
 }
