@@ -140,7 +140,7 @@ var iceSlider = {
 			}
 		};
 		this.handleHammer = function(ev) {
-			if(ev.type !== 'tap') {
+			if(ev.type !== 'release') {
 				ev.gesture.preventDefault();
 			}
 			if(((!self.desktop && iceSlider.pageWidth < 768) || self.desktop) && self.touchEvents) {
