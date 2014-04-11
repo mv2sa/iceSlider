@@ -1,5 +1,5 @@
 /*
-Ice Slider v1.11
+Ice Slider v1.12
 */
 'use strict';
 var iceSlider = {
@@ -140,7 +140,6 @@ var iceSlider = {
 			}
 		};
 		this.handleHammer = function(ev) {
-			ev.gesture.preventDefault();
 			if(((!self.desktop && iceSlider.pageWidth < 768) || self.desktop) && self.touchEvents) {
 				self.internal.wrapperQuery.scrollLeft(0);
 				switch(ev.type) {
