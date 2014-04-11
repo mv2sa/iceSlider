@@ -140,7 +140,7 @@ var iceSlider = {
 			}
 		};
 		this.handleHammer = function(ev) {
-			//ev.gesture.preventDefault();
+			ev.gesture.preventDefault();
 			if(((!self.desktop && iceSlider.pageWidth < 768) || self.desktop) && self.touchEvents) {
 				self.internal.wrapperQuery.scrollLeft(0);
 				switch(ev.type) {
