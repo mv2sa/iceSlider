@@ -1,5 +1,5 @@
 /*
-Ice Slider v1.11
+Ice Slider v1.12
 */
 'use strict';
 var iceSlider = {
