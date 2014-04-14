@@ -6,7 +6,6 @@
 .hammer-set > *,
 .hammer-set > * > * {
 	-webkit-backface-visibility: hidden;
-	-webkit-transform-style: preserve-3d;
 }
 
 .hammer-set img {
