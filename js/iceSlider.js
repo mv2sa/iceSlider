@@ -1,5 +1,5 @@
 /*
-Ice Slider v1.12
+Ice Slider v1.13
 */
 'use strict';
 var iceSlider = {
@@ -35,6 +35,8 @@ var iceSlider = {
 	    this.animation = typeof obj.animation !== 'undefined' ? obj.animation : 'auto';
 	    this.animationClass = typeof obj.animationClass !== 'undefined' ? obj.animationClass : 'hammer-animate';
 	    this.debug = typeof obj.debug !== 'undefined' ? obj.debug : false;
+		this.onInitCallback = typeof obj.onInitCallback !== 'undefined' ? obj.onInitCallback : false;
+		this.onUpdateCallback = typeof obj.onUpdateCallback !== 'undefined' ? obj.onUpdateCallback : false;
 		this.internal = {
 			itemQuery : null,
 			containerQuery : null,
@@ -137,6 +139,9 @@ var iceSlider = {
 				self.hammerHolder = Hammer(self.internal.wrapperQuery, {
 					drag_lock_to_axis: true
 				}).on('release dragleft dragright swipeleft swiperight', self.handleHammer);
+				if (self.onInitCallback) {
+					self.onInitCallback();
+				}
 			}
 		};
 		this.handleHammer = function(ev) {
@@ -352,6 +357,9 @@ var iceSlider = {
 					$(self.rightArrow).removeClass(self.arrowInactiveClass); 
 				}
 				self.showPane(self.internal.currentItem, true);
+				if (self.onUpdateCallback) {
+					self.onUpdateCallback();
+				}
 			} else {
 				self.internal.updateInQueue = true;
 			}
