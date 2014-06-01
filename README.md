@@ -2,7 +2,7 @@
 
 ###Multi-purpose highly customizable slider implementation of jquery.hammer.js
 
-See the slider sample page at http://mv2sa.github.io/iceSlider
+See the slider sample page at http://mv2sa.github.io/iceSlider keep scrolling for documentation
 
 ###Features:
 - Touch events
