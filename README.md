@@ -210,33 +210,43 @@ slider2.init();
     - Start the slider after defining it properties
     - Sample:
 
+```javascript
     slider = new iceSlider.hammerSlider({
         ...
     });
     slider.init();
+```
 
 - prev
     - Goes to the previous slide
     - Sample:
 
+```javascript
     slider.prev();
+```
 
 - next
     - Goes to the previous slide
     - Sample:
 
+```javascript
     slider.next();
+```
 
 - showPane
     - Goes to a specific slide
     - Starts at 0, so slider 1 will be 0, 2 will be 1, and so on
     - Sample:
 
+```javascript
     slider.showPane(2);
+```
 
 - update
     - After removing or adding slides, this method will update iceSlider internal values and calculations, to take in account the new quantity of items
     - Sample:
 
+```javascript
     $('#sliderContainer').append('<article class="slider2Item">...</article>');
     slider.update();
+```
