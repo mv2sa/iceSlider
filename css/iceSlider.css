@@ -3,15 +3,6 @@
 	-ms-touch-action: pan-y pinch-zoom;
 	touch-action: pan-y pinch-zoom;
 	zoom: 1;
-	-webkit-transform: translate3d(0,0,0) scale3d(1,1,1);
-	-moz-transform: translate3d(0,0,0) scale3d(1,1,1);
-	-0-transform: translate3d(0,0,0) scale3d(1,1,1);
-	transform: translate3d(0,0,0) scale3d(1,1,1);
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	-moz-tap-highlight-color: rgba(0, 0, 0, 0);
-	-o-tap-highlight-color: rgba(0, 0, 0, 0);
-	-ms-tap-highlight-color: rgba(0, 0, 0, 0);
-	tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .hammer-set,
