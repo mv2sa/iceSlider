@@ -3,6 +3,8 @@
 	-ms-touch-action: pan-y pinch-zoom;
 	touch-action: pan-y pinch-zoom;
 	zoom: 1;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
 }
 
 .hammer-set,
