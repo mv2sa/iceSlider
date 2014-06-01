@@ -1,5 +1,5 @@
 /*
-Ice Slider v1.13
+Ice Slider v1.14
 */
 'use strict';
 var iceSlider = {
@@ -37,6 +37,7 @@ var iceSlider = {
 	    this.debug = typeof obj.debug !== 'undefined' ? obj.debug : false;
 		this.onInitCallback = typeof obj.onInitCallback !== 'undefined' ? obj.onInitCallback : false;
 		this.onUpdateCallback = typeof obj.onUpdateCallback !== 'undefined' ? obj.onUpdateCallback : false;
+		this.onResizeCallback = typeof obj.onResizeCallback !== 'undefined' ? obj.onResizeCallback : false;
 		this.internal = {
 			itemQuery : null,
 			containerQuery : null,
@@ -288,7 +289,10 @@ var iceSlider = {
 	        self.internal.itemQuery.each(function() {
 	            $(this).width(self.internal.itemPxWidth);
 	        });
-	        self.internal.containerQuery.width(self.internal.itemPxWidth*self.internal.itemCount);			
+	        self.internal.containerQuery.width(self.internal.itemPxWidth*self.internal.itemCount);		
+        	if (self.onResizeCallback) {
+				self.onResizeCallback();
+			}
 		};
 	    this.setContainerOffset = function(percent, animate) {
 			self.internal.containerQuery.removeClass(self.animationClass);
