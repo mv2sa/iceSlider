@@ -38,7 +38,8 @@ See the slider sample page at http://mv2sa.github.io/iceSlider
 
 ##Documentation
 
-``/* sample 1 */
+```javascript
+/* sample 1 */
 
 slider = new iceSlider.hammerSlider({
     /* obrigatory */
@@ -69,7 +70,8 @@ slider2 = new iceSlider.hammerSlider({
     desktop : false,
     centerItem : true
 });
-slider2.init();``
+slider2.init();
+```
 
 ###Comprehensive description of properties
 
