@@ -226,7 +226,7 @@ slider2.init();
 ```
 
 - next
-    - Goes to the previous slide
+    - Goes to the next slide
     - Sample:
 
 ```javascript
@@ -247,6 +247,6 @@ slider2.init();
     - Sample:
 
 ```javascript
-    $('#sliderContainer').append('<article class="slider2Item">...</article>');
+    $('#sliderContainer').append('<article class="sliderItem">...</article>');
     slider.update();
 ```
