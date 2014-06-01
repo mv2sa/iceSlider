@@ -1,5 +1,7 @@
 .hammer-set {
 	overflow: hidden;
+	-ms-touch-action: pan-x;
+	touch-action: pan-x;
 }
 
 .hammer-set,
