@@ -39,37 +39,37 @@ See the slider sample page at http://mv2sa.github.io/iceSlider
 ##Documentation
 
 ``/* sample 1 */
-``
-``slider = new iceSlider.hammerSlider({
-``    /* obrigatory */
-``    wrapper : '#slider1Wrapper',
-``    container : '#slider1Container', 
-``    item : '.slider1Item', 
-``    /* optionals */
-``    itemActiveClass : 'active',
-``    leftArrow : '#slider1ArrowL',
-``    rightArrow : '#slider1ArrowR',
-``    arrowInactiveClass : 'inactive',
-``    dots : '#slider1Dots',
-``    dotActiveClass : 'slider1-currentDot',
-``    autoSlide : true,
-``    setTime : 5000
-``});
-``slider.init();
-``
-``/* sample 2 */
-``
-``slider2 = new iceSlider.hammerSlider({
-``    /* obrigatory */
-``    wrapper : '#slider2Wrapper',
-``    container : '#slider2Container', 
-``    item : '.slider2Item', 
-``    /* optionals */
-``    itemSize : 85,
-``    desktop : false,
-``    centerItem : true
-``});
-``slider2.init();
+
+slider = new iceSlider.hammerSlider({
+    /* obrigatory */
+    wrapper : '#slider1Wrapper',
+    container : '#slider1Container', 
+    item : '.slider1Item', 
+    /* optionals */
+    itemActiveClass : 'active',
+    leftArrow : '#slider1ArrowL',
+    rightArrow : '#slider1ArrowR',
+    arrowInactiveClass : 'inactive',
+    dots : '#slider1Dots',
+    dotActiveClass : 'slider1-currentDot',
+    autoSlide : true,
+    setTime : 5000
+});
+slider.init();
+
+/* sample 2 */
+
+slider2 = new iceSlider.hammerSlider({
+    /* obrigatory */
+    wrapper : '#slider2Wrapper',
+    container : '#slider2Container', 
+    item : '.slider2Item', 
+    /* optionals */
+    itemSize : 85,
+    desktop : false,
+    centerItem : true
+});
+slider2.init();``
 
 ###Comprehensive description of properties
 
