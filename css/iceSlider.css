@@ -2,12 +2,14 @@
 	overflow: hidden;
 	-ms-touch-action: pan-y pinch-zoom;
 	touch-action: pan-y pinch-zoom;
+	zoom: 1;
 }
 
 .hammer-set,
 .hammer-set > *,
 .hammer-set > * > * {
 	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
 }
 
 .hammer-set img {
