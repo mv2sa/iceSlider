@@ -3,8 +3,15 @@
 	-ms-touch-action: pan-y pinch-zoom;
 	touch-action: pan-y pinch-zoom;
 	zoom: 1;
-	perspective: 1000;
-	transform-style: preserve-3d;
+	-webkit-transform: translate3d(0,0,0) scale3d(1,1,1);
+	-moz-transform: translate3d(0,0,0) scale3d(1,1,1);
+	-o-transform: translate3d(0,0,0) scale3d(1,1,1);
+	transform: translate3d(0,0,0) scale3d(1,1,1);
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-moz-tap-highlight-color: rgba(0, 0, 0, 0);
+	-o-tap-highlight-color: rgba(0, 0, 0, 0);
+	-ms-tap-highlight-color: rgba(0, 0, 0, 0);
+	tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .hammer-set,
