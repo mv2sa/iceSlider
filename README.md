@@ -29,6 +29,7 @@ See the slider sample page at http://mv2sa.github.io/iceSlider keep scrolling fo
 
 ###Where can I see the javascript for this implementation:
 - js/main.js
+- or keep going down for the complete documentation
 
 ###Where can I see the HTML for this implementation:
 - index.html
