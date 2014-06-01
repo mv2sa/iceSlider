@@ -1,7 +1,7 @@
 .hammer-set {
 	overflow: hidden;
-	-ms-touch-action: cross-slide-x;
-	touch-action: cross-slide-x;
+	-ms-touch-action: pan-y cross-slide-y pinch-zoom double-tap-zoom;
+	touch-action: pan-y cross-slide-y pinch-zoom double-tap-zoom;
 }
 
 .hammer-set,
