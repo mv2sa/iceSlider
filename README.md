@@ -8,13 +8,14 @@ See the slider sample page at http://mv2sa.github.io/iceSlider keep scrolling fo
 - Touch events
 - Mouse events
 - Arrows
-- Custom Classes for css
+- Custom Classes for CSS
 - Dots
 - Bouncing
-- CSS 3 animation with js fallback
+- CSS3 animation with js fallback
 - Timed auto-slide with customizable options
-- Disable slider in desktop sizes(nice for responsive design)
-- Every option is defaulted as disabled, so you can activate only what you want
+- Disable slider in desktop sizes (nice for responsive design)
+- More than 20 configurable settings, every setting is defaulted to optimal user experience, but very easy to change
+- requireJS friendly, just need to add the define function
 
 ###The sample implementation is using HTML5 Boilerplate, with some tweaks
 
