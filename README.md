@@ -9,7 +9,7 @@ See the slider sample page at http://mv2sa.github.io/iceSlider keep scrolling fo
 - Mouse events
 - Arrows
 - Custom Classes for CSS
-- Dots
+- Navigation Dots
 - Bouncing
 - CSS3 animation with js fallback
 - Timed auto-slide with customizable options
@@ -44,7 +44,7 @@ See the slider sample page at http://mv2sa.github.io/iceSlider keep scrolling fo
 /* sample 1 */
 
 slider = new iceSlider.hammerSlider({
-    /* obrigatory */
+    /* Required */
     wrapper : '#slider1Wrapper',
     container : '#slider1Container', 
     item : '.slider1Item', 
@@ -63,7 +63,7 @@ slider.init();
 /* sample 2 */
 
 slider2 = new iceSlider.hammerSlider({
-    /* obrigatory */
+    /* Required */
     wrapper : '#slider2Wrapper',
     container : '#slider2Container', 
     item : '.slider2Item', 
@@ -78,18 +78,18 @@ slider2.init();
 ###Comprehensive description of properties
 
 - wrapper
-    - Obrigatory
+    - Required
     - accepts only an ID, jQuery style (#id)
     - this should be the element that will define the size of the view and display on the active slide
     - class hammer-set will be added to this element
 
 - container
-    - Obrigatory
+    - Required
     - accepts only an ID, jQuery style (#id)
     - this should be the element that will hold all items from the slider, and this is what will actually slide
 
 - item
-    - Obrigatory
+    - Required
     - accepts only classes, jQuery style (.class). 
     - this should be applied for all items in the slider
 
