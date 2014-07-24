@@ -1,0 +1,22 @@
+.hammer-set {
+	overflow: hidden;
+	-ms-touch-action: pan-y pinch-zoom;
+	touch-action: pan-y pinch-zoom;
+}
+
+.hammer-set,
+.hammer-set > *,
+.hammer-set > * > * {
+	-webkit-backface-visibility: hidden;
+}
+
+.hammer-set img {
+	-webkit-user-drag: none;
+}
+
+.hammer-animate {
+	-webkit-transition: -webkit-transform 0.4s ease-in-out, left 0.4s ease-in-out;
+	-moz-transition: -moz-transform 0.4s ease-in-out, left 0.4s ease-in-out;
+	-o-transition: -o-transform 0.4s ease-in-out, left 0.4s ease-in-out;
+	transition: transform 0.4s ease-in-out, left 0.4s ease-in-out;
+}
