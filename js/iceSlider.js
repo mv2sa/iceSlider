@@ -26,6 +26,7 @@ var iceSlider = {
 	    this.itemActiveClass = typeof obj.itemActiveClass !== 'undefined' ? obj.itemActiveClass : 'hammer-currentItem';
 	    this.desktop = typeof obj.desktop !== 'undefined' ? obj.desktop : true;
 	    this.touchEvents = typeof obj.touchEvents !== 'undefined' ? obj.touchEvents : true;
+	    this.dragThreshold = typeof obj.dragThreshold !== 'undefined' ? obj.dragThreshold : 35;
 	    this.leftArrow = typeof obj.leftArrow !== 'undefined' ? obj.leftArrow : false;
 	    this.rightArrow = typeof obj.rightArrow !== 'undefined' ? obj.rightArrow : false;
 	    this.arrowInactiveClass = typeof obj.arrowInactiveClass !== 'undefined' ? obj.arrowInactiveClass : 'hammer-arrowInactive';
@@ -178,7 +179,7 @@ var iceSlider = {
 		            case 'panend':
 		            	if(self.internal.swipped !== true) {
 			                // more then 50% moved, navigate
-			                if(Math.abs(ev.deltaX) > self.internal.itemPxWidth/2) {
+			                if(Math.abs(ev.deltaX) > self.internal.itemPxWidth*(self.dragThreshold/100)) {
 			                	switch(ev.direction) {
 			                		case 4 :
 			                			if(self.internal.currentItem !== 0) {
