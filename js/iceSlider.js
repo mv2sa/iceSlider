@@ -1,5 +1,5 @@
 /*
-Ice Slider v1.14
+Ice Slider v2
 */
 'use strict';
 var iceSlider = {
@@ -47,12 +47,13 @@ var iceSlider = {
 			itemWidthPercent : 0,
 			itemPxWidth : 0,
 			itemCount : 0,
-			swipped : false,
+			interaction : false,
 			currentItem : 0,
 			autoRun : null,
 			isDesktop : null,
 			updateInQueue : false,
-			mouseover : false
+			mouseover : false,
+			swipped : false
 		};
 		if(iceSlider.initialized === false) {
 			iceSlider.init();
@@ -60,13 +61,11 @@ var iceSlider = {
 		this.init = function() {
 			if(self.wrapper === false || self.container === false) {
 				this.error(1);
-			} else if (self.wrapper.substring(0 , 1) === '.' || self.container.substring(0 , 1) === '.') {
-				this.error(2);
 			} else {
-				self.internal.itemQuery =  $("> " + self.item, self.wrapper + ' ' + self.container);
+				self.internal.itemQuery =  $('> .' + self.item, '#' + self.wrapper + ' #' + self.container);
 				self.internal.itemCount =  self.internal.itemQuery.length;
-				self.internal.wrapperQuery = $(self.wrapper);
-				self.internal.containerQuery = $(self.wrapper + ' ' + self.container);
+				self.internal.wrapperQuery = $('#' + self.wrapper);
+				self.internal.containerQuery = $('#' + self.container);
 				self.internal.wrapperQuery.addClass('hammer-set');
 				self.internal.wrapperPxSize = self.internal.wrapperQuery.width();
 				self.internal.itemQuery.first().addClass(self.itemActiveClass);
@@ -74,20 +73,17 @@ var iceSlider = {
 					self.animation = 'js';
 				}
 				if(self.dots) {
-		    		if (self.dots.substring(0 , 1) === '.') {
-		    			self.error(3);
-	    			} else {
-	    				if (self.internal.itemCount === 1 && self.oneItemDotHide === true) {
-	    					$(self.dots).css('visibility', 'hidden');
-	    				}
-	    				self.addDots();
-	   					$(self.dots).on('click', 'a', function(event) {
-				        	event.preventDefault();
-				        	var index = $(this).attr('index');
-				        	self.internal.swipped = true;
-				        	self.showPane(index-1);
-				        });
-	    			}
+					self.dots = $('#' + self.dots);
+    				if (self.internal.itemCount === 1 && self.oneItemDotHide === true) {
+    					self.dots.css('visibility', 'hidden');
+    				}
+    				self.addDots();
+   					self.dots.on('click', 'a', function(event) {
+			        	event.preventDefault();
+			        	var index = $(this).attr('index');
+			        	self.internal.interaction = true;
+			        	self.showPane(index-1);
+			        });
 	    		}
 	    		if(!self.desktop && iceSlider.pageWidth >= 768) {
 					self.internal.isDesktop = true;
@@ -97,7 +93,7 @@ var iceSlider = {
 	    		} else {
 	    			self.widthController();
 	    		}
-	    		$(window).on("load resize orientationchange", function() {
+	    		$(window).on('load resize orientationchange', function() {
 	    			if(self.internal.updateInQueue && (!self.desktop && iceSlider.pageWidth < 768)) {
 	    				self.internal.updateInQueue = false;
 	    				self.update();
@@ -117,90 +113,94 @@ var iceSlider = {
 					});
 				}
 				if(self.leftArrow) {
-					$(self.leftArrow).addClass(self.arrowInactiveClass);
-					$(self.leftArrow).click(function(event) {
+					self.leftArrow = $('#' + self.leftArrow);
+					self.leftArrow.addClass(self.arrowInactiveClass);
+					self.leftArrow.click(function(event) {
 			        	event.preventDefault();
-			        	self.internal.swipped = true;
+			        	self.internal.interaction = true;
 			        	self.prev();
 			        });
 				} 
 				if (self.rightArrow) {
+					self.rightArrow = $('#' + self.rightArrow);
 				    if(self.internal.currentItem+1 === self.internal.itemCount) {
-    					$(self.rightArrow).addClass(self.arrowInactiveClass)
+    					self.rightArrow.addClass(self.arrowInactiveClass)
     				}
-					$(self.rightArrow).click(function(event) {
+					self.rightArrow.click(function(event) {
 			        	event.preventDefault();
-			        	self.internal.swipped = true;
+			        	self.internal.interaction = true;
 			        	self.next();
 			        });	        			
 				}
 				if (self.desktop || (!self.desktop && iceSlider.pageWidth < 768)) {
 					self.showPane(0, true);
 				}
-				self.hammerHolder = Hammer(self.internal.wrapperQuery, {
-					drag_lock_to_axis: true
-				}).on('release dragleft dragright swipeleft swiperight', self.handleHammer);
+				self.hammerHolder = new Hammer(document.getElementById(self.wrapper)).on('panleft panright panend swipeleft swiperight', self.handleHammer);
 				if (self.onInitCallback) {
 					self.onInitCallback();
 				}
 			}
 		};
 		this.handleHammer = function(ev) {
-			if(ev.type !== 'release') {
-				ev.gesture.preventDefault();
+			console.log(ev.type);
+			console.log(ev);
+			if(ev.type !== 'panend') {
+				ev.preventDefault();
 			}
 			if(((!self.desktop && iceSlider.pageWidth < 768) || self.desktop) && self.touchEvents) {
 				self.internal.wrapperQuery.scrollLeft(0);
 				switch(ev.type) {
-		            case 'dragright':
-		            case 'dragleft':
-		            	var gestureX, pane_offset, drag_offset;
-		            	self.internal.swipped = true;
-				         // stick to the finger
-				        gestureX = ev.gesture.deltaX;
-	                    pane_offset = -(100/self.internal.itemCount)*self.internal.currentItem;
-	                    drag_offset = ((100/self.internal.itemPxWidth)*gestureX) / self.internal.itemCount;
-	                    // slow down at the first and last pane
-	                    if((self.internal.currentItem === 0 && ev.gesture.direction == Hammer.DIRECTION_RIGHT) ||
-	                        (self.internal.currentItem === self.internal.itemCount-1 && ev.gesture.direction == Hammer.DIRECTION_LEFT)) {
-	                        drag_offset *= .3;
-	                    }
-	                    self.setContainerOffset(drag_offset + pane_offset, false);
+		            case 'panright':
+		            case 'panleft':
+		            	self.internal.interaction = true;
+		            	if(ev.isFinal !== true) {
+			            	var gestureX, pane_offset, drag_offset;
+					         // stick to the finger
+					        gestureX = ev.deltaX;
+		                    pane_offset = -(100/self.internal.itemCount)*self.internal.currentItem;
+		                    drag_offset = ((100/self.internal.itemPxWidth)*gestureX) / self.internal.itemCount;
+		                    // slow down at the first and last pane
+		                    if((self.internal.currentItem === 0 && ev.direction === 4) ||
+		                        (self.internal.currentItem === self.internal.itemCount-1 && ev.direction === 2)) {
+		                        drag_offset *= .3;
+		                    }
+		                    self.setContainerOffset(drag_offset + pane_offset, false);
+		            	}
 		            break;
 		            case 'swipeleft':
-						self.internal.swipped = true;
+						self.internal.swipped = true; 
 						self.next();
-		                ev.gesture.stopDetect();
 		            break;
 		            case 'swiperight':
-						self.internal.swipped = true;
+						self.internal.swipped = true; 
 						self.prev();
-		                ev.gesture.stopDetect();
 		            break;
-
-		            case 'release':
-		                // more then 50% moved, navigate
-		                self.internal.swipped = true;
-		                if(Math.abs(ev.gesture.deltaX) > self.internal.itemPxWidth/2) {
-		                	switch(ev.gesture.direction) {
-		                		case 'right' :
-		                			if(self.internal.currentItem !== 0) {
-		                				self.prev();
-		                			} else {
-		                				self.showPane(self.internal.currentItem);
-		                			}
-		                		break;
-		                		case 'left' :
-									if(self.internal.currentItem !== self.internal.itemCount-1) {
-				                        self.next();
-				                    } else {
-				                    	self.showPane(self.internal.currentItem);
-				                    }
-				                break;
-		                	}
-		                } else {
-		                    self.showPane(self.internal.currentItem);
-		                }
+		            case 'panend':
+		            	if(self.internal.swipped !== true) {
+			                // more then 50% moved, navigate
+			                if(Math.abs(ev.deltaX) > self.internal.itemPxWidth/2) {
+			                	switch(ev.direction) {
+			                		case 4 :
+			                			if(self.internal.currentItem !== 0) {
+			                				self.prev();
+			                			} else {
+			                				self.showPane(self.internal.currentItem);
+			                			}
+			                		break;
+			                		case 2 :
+										if(self.internal.currentItem !== self.internal.itemCount-1) {
+					                        self.next();
+					                    } else {
+					                    	self.showPane(self.internal.currentItem);
+					                    }
+					                break;
+			                	}
+			                } else {
+			                    self.showPane(self.internal.currentItem);
+			                }		            		
+		            	} else {
+		            		self.internal.swipped = false;
+		            	}
 		            break;
 		        }
 	    	}
@@ -217,22 +217,22 @@ var iceSlider = {
 	        index = Math.max(0, Math.min(index, self.internal.itemCount-1));
 	        self.internal.currentItem = index;
 	        self.internal.itemQuery.removeClass(self.itemActiveClass);
-	        self.internal.containerQuery.children(self.item + ':nth-child(' + (self.internal.currentItem+1) + ')').addClass(self.itemActiveClass);
+	        self.internal.containerQuery.children('.' + self.item + ':nth-child(' + (self.internal.currentItem+1) + ')').addClass(self.itemActiveClass);
 	        if(self.dots) {
-	        	$(self.dots + ' a').removeClass(self.dotActiveClass);
-	        	$(self.dots + ' a:nth-child(' + (self.internal.currentItem+1) + ')').addClass(self.dotActiveClass);
+	        	self.dots.children('a').removeClass(self.dotActiveClass);
+	        	self.dots.children('a:nth-child(' + (self.internal.currentItem+1) + ')').addClass(self.dotActiveClass);
 	        }
 
 	        if(self.leftArrow && self.internal.currentItem === 0) {
-	        	$(self.leftArrow).addClass(self.arrowInactiveClass);
+	        	self.leftArrow.addClass(self.arrowInactiveClass);
 	        } else if (self.leftArrow) {
-	        	$(self.leftArrow).removeClass(self.arrowInactiveClass);
+	        	self.leftArrow.removeClass(self.arrowInactiveClass);
 	        }
 
 	        if (self.rightArrow && self.internal.currentItem === self.internal.itemCount-1) {
-	        	$(self.rightArrow).addClass(self.arrowInactiveClass);
+	        	self.rightArrow.addClass(self.arrowInactiveClass);
 	        } else if (self.rightArrow) {
-	        	$(self.rightArrow).removeClass(self.arrowInactiveClass);
+	        	self.rightArrow.removeClass(self.arrowInactiveClass);
 	        }
 	        offset = -((100/self.internal.itemCount)*self.internal.currentItem);
 	        if(self.itemSize < 100 && !self.centerItem) {
@@ -252,7 +252,7 @@ var iceSlider = {
 	        
 	    };
 	    this.rotate = function() {
-	    	if(self.internal.swipped === false || (self.internal.swipped === true && self.autoSlideInterruption === false)) {
+	    	if(self.internal.interaction === false || (self.internal.interaction === true && self.autoSlideInterruption === false)) {
 		    	if(self.internal.currentItem+1 !== self.internal.itemCount) {
 		    		self.showPane(self.internal.currentItem+1);
 		    	} else {
@@ -300,41 +300,40 @@ var iceSlider = {
 	            self.internal.containerQuery.addClass(self.animationClass);
 	        }
 	        if((Modernizr.csstransforms3d && self.animation === 'auto') || (Modernizr.csstransforms3d && self.animation === 'CSS')) {
-	            self.internal.containerQuery.css("transform", "translate3d("+ percent +"%,0,0) scale3d(1,1,1)");
+	            self.internal.containerQuery.css('transform', 'translate3d('+ percent +'%,0,0) scale3d(1,1,1)');
 	        }
 	        else if((Modernizr.csstransforms && self.animation === 'auto') || (Modernizr.csstransforms && self.animation === 'CSS')) {
-	            self.internal.containerQuery.css("transform", "translate("+ percent +"%,0)");
+	            self.internal.containerQuery.css('transform', 'translate('+ percent +'%,0)');
 	        }
 	        else {
 	            var px = ((self.internal.itemPxWidth*self.internal.itemCount) / 100) * percent;
 	            if(animate){
-					self.internal.containerQuery.dequeue(true).animate({left: px+"px"},300);
+					self.internal.containerQuery.dequeue(true).animate({left: px+'px'},300);
 	            } else {
-	            	self.internal.containerQuery.css("left", px+"px");
+	            	self.internal.containerQuery.css('left', px+'px');
 	            }
 	            
 	        }
 	    };
 		this.addDots = function() {
-			var dotLink, dotSpan, i,
-				dots = $(self.dots);
+			var dotLink, dotSpan, i;
 			dotLink = document.createElement('a');
 			dotSpan = document.createElement('span');
 			dotLink.setAttribute('href', '#');
 			dotLink.appendChild(dotSpan);
 			dotLink = $(dotLink);
-			dots.html('');
+			self.dots.html('');
 			for(i = 1; i <= self.internal.itemCount; i++){
 	        	if(i === self.internal.currentItem+1) {
-	        		dots.append(dotLink.attr('index', i).clone().addClass(self.dotActiveClass));
+	        		self.dots.append(dotLink.attr('index', i).clone().addClass(self.dotActiveClass));
 	        	} else {
-	        		dots.append(dotLink.attr('index', i).clone());
+	        		self.dots.append(dotLink.attr('index', i).clone());
 	        	}
 	        }
 		};
 		this.update = function() {
 			if(!self.desktop && iceSlider.pageWidth < 768) {
-				self.internal.itemQuery =  $("> " + self.item, self.wrapper + ' ' + self.container);
+				self.internal.itemQuery =  $('> .' + self.item, '#' + self.wrapper + ' #' + self.container);
 				self.internal.itemCount =  self.internal.itemQuery.length;
 				self.internal.itemQuery.each(function(index) {
 					if($(this).hasClass(self.itemActiveClass)) {
@@ -343,22 +342,22 @@ var iceSlider = {
 				});
 				if(self.dots) {
 					if (self.internal.itemCount === 1 && self.oneItemDotHide === true) {
-						$(self.dots).css('visibility', 'hidden');
+						self.dots.css('visibility', 'hidden');
 					} else if (self.internal.itemCount > 1 && self.oneItemDotHide === true) {
-						$(self.dots).css('visibility', 'visible');
+						self.dots.css('visibility', 'visible');
 					}
 					self.addDots();
 				}
 				self.widthController();
 				if(self.leftArrow && self.internal.currentItem === 0) {
-					$(self.leftArrow).addClass(self.arrowInactiveClass);
+					self.leftArrow.addClass(self.arrowInactiveClass);
 				} else {
-					$(self.leftArrow).removeClass(self.arrowInactiveClass);
+					self.leftArrow.removeClass(self.arrowInactiveClass);
 				}
 				if (self.leftArrow && self.internal.currentItem+1 === self.internal.itemCount) {
-					$(self.rightArrow).addClass(self.arrowInactiveClass);  			
+					self.rightArrow.addClass(self.arrowInactiveClass);  			
 				} else {
-					$(self.rightArrow).removeClass(self.arrowInactiveClass); 
+					self.rightArrow.removeClass(self.arrowInactiveClass);
 				}
 				self.showPane(self.internal.currentItem, true);
 				if (self.onUpdateCallback) {
