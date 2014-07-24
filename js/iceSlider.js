@@ -143,8 +143,6 @@ var iceSlider = {
 			}
 		};
 		this.handleHammer = function(ev) {
-			console.log(ev.type);
-			console.log(ev);
 			if(ev.type !== 'panend') {
 				ev.preventDefault();
 			}
