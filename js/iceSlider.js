@@ -5,6 +5,7 @@ Ice Slider v2
 var iceSlider = {
 	pageWidth : window.innerWidth || document.documentElement.clientWidth,
 	initialized : false,
+	cssTransformPrefix : false,
 	init : function() {
 		iceSlider.initialized = true;
 		iceSlider.addEvent(window, 'resize', iceSlider.getWindowWidth);
@@ -60,30 +61,28 @@ var iceSlider = {
 		}
 		this.init = function() {
 			if(self.wrapper === false || self.container === false) {
-				this.error(1);
+				console.log('Failure to initialize slider');
 			} else {
-				self.internal.itemQuery =  $('> .' + self.item, '#' + self.wrapper + ' #' + self.container);
+				self.internal.wrapperQuery = document.getElementById(self.wrapper);
+				self.internal.containerQuery = document.getElementById(self.container);
+				self.internal.itemQuery =  self.internal.containerQuery.getElementsByClassName(self.item);
+				iceSlider.addClass(self.internal.wrapperQuery, 'hammer-set');
 				self.internal.itemCount =  self.internal.itemQuery.length;
-				self.internal.wrapperQuery = $('#' + self.wrapper);
-				self.internal.containerQuery = $('#' + self.container);
-				self.internal.wrapperQuery.addClass('hammer-set');
-				self.internal.wrapperPxSize = self.internal.wrapperQuery.width();
-				self.internal.itemQuery.first().addClass(self.itemActiveClass);
+				self.internal.wrapperPxSize = self.internal.wrapperQuery.offsetWidth;
+				iceSlider.addClass(self.internal.itemQuery[0], self.itemActiveClass);
+				if(iceSlider.cssTransformPrefix === false) {
+					iceSlider.transformPrefix();
+				}
 			    if(Modernizr.csstransitions === false) {
 					self.animation = 'js';
 				}
 				if(self.dots) {
-					self.dots = $('#' + self.dots);
+					self.dots = document.getElementById(self.dots);
     				if (self.internal.itemCount === 1 && self.oneItemDotHide === true) {
-    					self.dots.css('visibility', 'hidden');
+    					self.dots.style.visibility = 'hidden';
     				}
     				self.addDots();
-   					self.dots.on('click', 'a', function(event) {
-			        	event.preventDefault();
-			        	var index = $(this).attr('index');
-			        	self.internal.interaction = true;
-			        	self.showPane(index-1);
-			        });
+    				iceSlider.addEvent(self.dots, 'click', self.dotsEvent);
 	    		}
 	    		if(!self.desktop && iceSlider.pageWidth >= 768) {
 					self.internal.isDesktop = true;
@@ -99,37 +98,25 @@ var iceSlider = {
 					self.internal.autoRun = setInterval(function(){
 						self.rotate();
 					},self.setTime);
-					self.internal.wrapperQuery.mouseover(function() {
-				    	clearInterval(self.internal.autoRun); 
-					}).mouseout(function() {
-						clearInterval(self.internal.autoRun); 
-						self.internal.autoRun = setInterval(function(){self.rotate()},self.setTime);
-					});
+					iceSlider.addEvent(self.internal.wrapperQuery, 'mouseover', self.mouseoverRotationEvent);
+					iceSlider.addEvent(self.internal.wrapperQuery, 'mouseout', self.mouseoutRotationEvent);
 				}
 				if(self.leftArrow) {
-					self.leftArrow = $('#' + self.leftArrow);
-					self.leftArrow.addClass(self.arrowInactiveClass);
-					self.leftArrow.click(function(event) {
-			        	event.preventDefault();
-			        	self.internal.interaction = true;
-			        	self.prev();
-			        });
+					self.leftArrow = document.getElementById(self.leftArrow);
+					iceSlider.addClass(self.leftArrow, self.arrowInactiveClass);
+					iceSlider.addEvent(self.leftArrow, 'click', self.leftArrowEvent);   
 				} 
 				if (self.rightArrow) {
-					self.rightArrow = $('#' + self.rightArrow);
+					self.rightArrow = document.getElementById(self.rightArrow);
 				    if(self.internal.currentItem+1 === self.internal.itemCount) {
-    					self.rightArrow.addClass(self.arrowInactiveClass)
+    					iceSlider.addClass(self.rightArrow, self.arrowInactiveClass);
     				}
-					self.rightArrow.click(function(event) {
-			        	event.preventDefault();
-			        	self.internal.interaction = true;
-			        	self.next();
-			        });	        			
+    				iceSlider.addEvent(self.rightArrow, 'click', self.rightArrowEvent);    			
 				}
 				if (self.desktop || (!self.desktop && iceSlider.pageWidth < 768)) {
 					self.showPane(0, true);
 				}
-				self.hammerHolder = new Hammer(document.getElementById(self.wrapper)).on('panleft panright panend swipeleft swiperight', self.handleHammer);
+				self.hammerHolder = new Hammer(self.internal.wrapperQuery).on('panleft panright panend swipeleft swiperight', self.handleHammer);
 				if (self.onInitCallback) {
 					self.onInitCallback();
 				}
@@ -143,12 +130,39 @@ var iceSlider = {
 				self.widthController();
 			}
 		};
+		this.dotsEvent = function(event) {
+			event.preventDefault();
+			if(event.target !== event.currentTarget) {
+				var index = event.target.getAttribute('index');
+				if (index !== null || index !== '') {
+					self.internal.interaction = true;
+					self.showPane(index-1);				
+				}
+			}
+		};
+		this.leftArrowEvent = function(event) {
+			event.preventDefault();
+			self.internal.interaction = true;
+			self.prev();
+		};
+		this.rightArrowEvent = function(event) {
+			event.preventDefault();
+			self.internal.interaction = true;
+			self.next();
+		};
+		this.mouseoverRotationEvent = function() {
+			clearInterval(self.internal.autoRun);
+		};
+		this.mouseoutRotationEvent = function() {
+			clearInterval(self.internal.autoRun); 
+			self.internal.autoRun = setInterval(function(){self.rotate()},self.setTime);
+		};
 		this.handleHammer = function(ev) {
 			if(ev.type !== 'panend') {
 				ev.preventDefault();
 			}
 			if(((!self.desktop && iceSlider.pageWidth < 768) || self.desktop) && self.touchEvents) {
-				self.internal.wrapperQuery.scrollLeft(0);
+				self.internal.wrapperQuery.scrollLeft = 0;
 				switch(ev.type) {
 		            case 'panright':
 		            case 'panleft':
@@ -177,7 +191,6 @@ var iceSlider = {
 		            break;
 		            case 'panend':
 		            	if(self.internal.swipped !== true) {
-			                // more then 50% moved, navigate
 			                if(Math.abs(ev.deltaX) > self.internal.itemPxWidth*(self.dragThreshold/100)) {
 			                	switch(ev.direction) {
 			                		case 4 :
@@ -212,27 +225,24 @@ var iceSlider = {
 			return self.showPane(self.internal.currentItem-1); 
 		};
 		this.showPane = function(index, updating) {
-	        // between the bounds
 	        var offset;
 	        index = Math.max(0, Math.min(index, self.internal.itemCount-1));
 	        self.internal.currentItem = index;
-	        self.internal.itemQuery.removeClass(self.itemActiveClass);
-	        self.internal.containerQuery.children('.' + self.item + ':nth-child(' + (self.internal.currentItem+1) + ')').addClass(self.itemActiveClass);
+	        iceSlider.removeClass(self.internal.itemQuery, self.itemActiveClass);
+	        iceSlider.addClass(self.internal.containerQuery.querySelectorAll('.' + self.item)[self.internal.currentItem], self.itemActiveClass);
 	        if(self.dots) {
-	        	self.dots.children('a').removeClass(self.dotActiveClass);
-	        	self.dots.children('a:nth-child(' + (self.internal.currentItem+1) + ')').addClass(self.dotActiveClass);
+	        	iceSlider.removeClass(self.dots.querySelectorAll('a'), self.dotActiveClass);
+	        	iceSlider.addClass(self.dots.querySelector('a')[self.internal.currentItem], self.dotActiveClass);
 	        }
-
 	        if(self.leftArrow && self.internal.currentItem === 0) {
-	        	self.leftArrow.addClass(self.arrowInactiveClass);
+	        	iceSlider.addClass(self.leftArrow, self.arrowInactiveClass);
 	        } else if (self.leftArrow) {
-	        	self.leftArrow.removeClass(self.arrowInactiveClass);
+	        	iceSlider.removeClass(self.leftArrow, self.arrowInactiveClass);
 	        }
-
 	        if (self.rightArrow && self.internal.currentItem === self.internal.itemCount-1) {
-	        	self.rightArrow.addClass(self.arrowInactiveClass);
+	        	iceSlider.addClass(self.rightArrow, self.arrowInactiveClass);
 	        } else if (self.rightArrow) {
-	        	self.rightArrow.removeClass(self.arrowInactiveClass);
+	        	iceSlider.removeClass(self.rightArrow, self.arrowInactiveClass);
 	        }
 	        offset = -((100/self.internal.itemCount)*self.internal.currentItem);
 	        if(self.itemSize < 100 && !self.centerItem) {
@@ -249,7 +259,6 @@ var iceSlider = {
 	    	} else {
 	    		self.setContainerOffset(offset, false);
 	    	}
-	        
 	    };
 	    this.rotate = function() {
 	    	if(self.internal.interaction === false || (self.internal.interaction === true && self.autoSlideInterruption === false)) {
@@ -267,10 +276,10 @@ var iceSlider = {
 					clearInterval(self.internal.autoRun);
 				}
 				self.setContainerOffset(0, false);
-				self.internal.itemQuery.each(function() {
-	            	$(this).attr('style', '');
-	        	});
-	        	self.internal.containerQuery.attr('style', '');
+				for (var i; i < self.internal.itemQuery.length; i++) {
+					self.internal.itemQuery[i].setAttribute('style', '');
+				}
+	        	self.internal.containerQuery.setAttribute('style', '');
 			} else if ((!self.desktop && iceSlider.pageWidth < 768) && self.internal.isDesktop === true) {
 				self.internal.isDesktop = false;
 				if(self.autoSlide) {
@@ -284,52 +293,50 @@ var iceSlider = {
 			}
 		};
 		this.adjustWidth = function() {
-			self.internal.wrapperPxSize = self.internal.wrapperQuery.width();
+			self.internal.wrapperPxSize = self.internal.wrapperQuery.offsetWidth;
 	    	self.internal.itemPxWidth = self.internal.wrapperPxSize * (self.itemSize/100);
-	        self.internal.itemQuery.each(function() {
-	            $(this).width(self.internal.itemPxWidth);
-	        });
-	        self.internal.containerQuery.width(self.internal.itemPxWidth*self.internal.itemCount);		
+	    	for (var i; i < self.internal.itemQuery.length; i++) {
+	    		self.internal.itemQuery[i].style.width = self.internal.itemPxWidth;
+	    	}
+	        self.internal.containerQuery.style.width = self.internal.itemPxWidth*self.internal.itemCount;		
         	if (self.onResizeCallback) {
 				self.onResizeCallback();
 			}
 		};
 	    this.setContainerOffset = function(percent, animate) {
-			self.internal.containerQuery.removeClass(self.animationClass);
+	    	iceSlider.removeClass(self.internal.containerQuery, self.animationClass);
 	        if(animate) {
-	            self.internal.containerQuery.addClass(self.animationClass);
+	        	iceSlider.addClass(self.internal.containerQuery, self.animationClass);
 	        }
 	        if((Modernizr.csstransforms3d && self.animation === 'auto') || (Modernizr.csstransforms3d && self.animation === 'CSS')) {
-	            self.internal.containerQuery.css('transform', 'translate3d('+ percent +'%,0,0) scale3d(1,1,1)');
+	            self.internal.containerQuery.style[iceSlider.cssTransformPrefix] = 'translate3d('+ percent +'%,0,0) scale3d(1,1,1)';
 	        }
 	        else if((Modernizr.csstransforms && self.animation === 'auto') || (Modernizr.csstransforms && self.animation === 'CSS')) {
-	            self.internal.containerQuery.css('transform', 'translate('+ percent +'%,0)');
+	            self.internal.containerQuery.style[iceSlider.cssTransformPrefix] = 'translate('+ percent +'%,0)';
 	        }
 	        else {
-	            var px = ((self.internal.itemPxWidth*self.internal.itemCount) / 100) * percent;
-	            if(animate){
-					self.internal.containerQuery.dequeue(true).animate({left: px+'px'},300);
-	            } else {
-	            	self.internal.containerQuery.css('left', px+'px');
-	            }
+	    //         var px = ((self.internal.itemPxWidth*self.internal.itemCount) / 100) * percent;
+	    //         if(animate){
+					// self.internal.containerQuery.dequeue(true).animate({left: px+'px'},300);
+	    //         } else {
+	    //         	self.internal.containerQuery.css('left', px+'px');
+	    //         }
 	            
 	        }
 	    };
 		this.addDots = function() {
-			var dotLink, dotSpan, i;
+			var dotLink, dotSpan, i, currentItem;
 			dotLink = document.createElement('a');
 			dotSpan = document.createElement('span');
 			dotLink.setAttribute('href', '#');
 			dotLink.appendChild(dotSpan);
-			dotLink = $(dotLink);
-			self.dots.html('');
+			self.dots.innerHTML = '';
 			for(i = 1; i <= self.internal.itemCount; i++){
-	        	if(i === self.internal.currentItem+1) {
-	        		self.dots.append(dotLink.attr('index', i).clone().addClass(self.dotActiveClass));
-	        	} else {
-	        		self.dots.append(dotLink.attr('index', i).clone());
-	        	}
+				currentItem = dotLink.cloneNode(true);
+				currentItem.setAttribute('index', i);
+	        	self.dots.appendChild(currentItem);
 	        }
+			iceSlider.addClass(self.dots.firstChild, self.dotActiveClass);
 		};
 		this.update = function() {
 			if(!self.desktop && iceSlider.pageWidth < 768) {
@@ -368,34 +375,16 @@ var iceSlider = {
 			}
 
 		};
-		this.error = function(error) {
-			if(self.debug) {
-				switch(error) {
-					case 1:
-						console.log('Please specify the wrapper and container ID');
-						break;
-					case 2:
-						console.log('Wrapper and container needs to be an ID');
-						break;
-					case 3:
-						console.log('Dots needs to be an ID');
-						break;
-					default:
-						console.log('Unknown error');
-						break;
-				}
-			}
-		};
 	},
 	addEvent : function(obj, type, fn) {
 		if (obj.addEventListener) {
 			obj.addEventListener(type, fn, false);
 		} else if (obj.attachEvent) {
-			obj["e" + type + fn] = fn;
+			obj['e' + type + fn] = fn;
 			obj[type + fn] = function () {
-				obj["e" + type + fn](window.event);
+				obj['e' + type + fn](window.event);
 			}
-			obj.attachEvent("on" + type, obj[type + fn]);
+			obj.attachEvent('on' + type, obj[type + fn]);
 		}
 	},
 	removeEvent : function (obj, type, fn) {
@@ -404,5 +393,77 @@ var iceSlider = {
 		} else if (obj.detachEvent) {
 			obj.detachEvent(type, fn);
 		}
+	},
+	addClass : function(obj, strClass) {
+		var currentClassesArray, classThere, i, j;
+		if (!iceSlider.isNodeList(obj)) {
+			obj = [obj];
+		}
+		for (i=0; i < obj.length; i++) {
+			classThere = false;
+			currentClassesArray = obj[i].className;
+			if (typeof currentClassesArray === 'string') {
+				currentClassesArray = currentClassesArray.split(' ');
+				for (j=0; j < currentClassesArray.length; j++) {
+					if(currentClassesArray[j] === strClass) {
+						classThere = true;
+					}
+				}
+				if (!classThere) {
+					obj[i].className = obj[i].className + ' ' + strClass;
+				}
+			}
+		}
+	},
+	removeClass : function(obj, strClass) {
+		var currentClassesArray, reInserted, i, j, removed;
+		if (!iceSlider.isNodeList(obj)) {
+			obj = [obj];
+		}
+		for (i=0; i < obj.length; i++) {
+			removed = false;
+			currentClassesArray = obj[i].className;
+			if (typeof currentClassesArray === 'string') {
+				currentClassesArray = currentClassesArray.split(' ');
+				for (j=0; j < currentClassesArray.length; j++) {
+					if(currentClassesArray[j] === strClass) {
+						removed = true;
+						console.log(currentClassesArray[j]);
+						currentClassesArray.splice(j, 1);
+					}
+				}
+				if(removed === true) {
+					reInserted = "";
+					for (j=0; j < currentClassesArray.length; j++) {
+						reInserted = reInserted + currentClassesArray[j];
+					}
+					obj[i].className = reInserted;
+				}
+				removed = false;
+			}
+		}
+	},
+	checkVendorPrefix : function (prefixes) {
+		var tmp = document.createElement('div');
+		var result = '';
+		for (var i = 0; i < prefixes.length; ++i) {
+			if (typeof tmp.style[prefixes[i]] != 'undefined'){
+				result = prefixes[i];
+			} else {
+				result = null;
+			} 
+		}
+		return result;
+	},
+	transformPrefix : function() {
+		iceSlider.cssTransformPrefix = iceSlider.checkVendorPrefix(['transform', 'msTransform', 'MozTransform', 'WebkitTransform', 'OTransform']);
+	},
+	isNodeList : function(nodes) {
+	    var stringRepr = Object.prototype.toString.call(nodes);
+
+	    return typeof nodes === 'object' &&
+	        /^\[object (HTMLCollection|NodeList|Object)\]$/.test(stringRepr) &&
+	        nodes.hasOwnProperty('length') &&
+	        (nodes.length === 0 || (typeof nodes[0] === 'object' && nodes[0].nodeType > 0));
 	}
 };
