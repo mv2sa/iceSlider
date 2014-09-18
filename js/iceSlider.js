@@ -7,11 +7,10 @@ var iceSlider = {
 	initialized : false,
 	init : function() {
 		iceSlider.initialized = true;
-
-			$(window).resize(function(){
-				iceSlider.pageWidth = window.innerWidth || document.documentElement.clientWidth;
-			});
-
+		iceSlider.addEvent(window, 'resize', iceSlider.getWindowWidth);
+	},
+	getWindowWidth : function() {
+		iceSlider.pageWidth = window.innerWidth || document.documentElement.clientWidth;
 	},
 	hammerSlider : function(obj) {
 	    var self = this, hammerHolder;
@@ -94,14 +93,8 @@ var iceSlider = {
 	    		} else {
 	    			self.widthController();
 	    		}
-	    		$(window).on('load resize orientationchange', function() {
-	    			if(self.internal.updateInQueue && (!self.desktop && iceSlider.pageWidth < 768)) {
-	    				self.internal.updateInQueue = false;
-	    				self.update();
-	    			} else {
-	    				self.widthController();
-	    			}
-				});
+	    		iceSlider.addEvent(window, 'resize', self.widthControllerEvent);
+	    		iceSlider.addEvent(window, 'orientationchange', self.widthControllerEvent);
 				if(self.autoSlide) {
 					self.internal.autoRun = setInterval(function(){
 						self.rotate();
@@ -140,6 +133,14 @@ var iceSlider = {
 				if (self.onInitCallback) {
 					self.onInitCallback();
 				}
+			}
+		};
+		this.widthControllerEvent = function() {
+			if(self.internal.updateInQueue && (!self.desktop && iceSlider.pageWidth < 768)) {
+				self.internal.updateInQueue = false;
+				self.update();
+			} else {
+				self.widthController();
 			}
 		};
 		this.handleHammer = function(ev) {
@@ -385,5 +386,23 @@ var iceSlider = {
 				}
 			}
 		};
+	},
+	addEvent : function(obj, type, fn) {
+		if (obj.addEventListener) {
+			obj.addEventListener(type, fn, false);
+		} else if (obj.attachEvent) {
+			obj["e" + type + fn] = fn;
+			obj[type + fn] = function () {
+				obj["e" + type + fn](window.event);
+			}
+			obj.attachEvent("on" + type, obj[type + fn]);
+		}
+	},
+	removeEvent : function (obj, type, fn) {
+		if (obj.removeEventListener) {
+			obj.removeEventListener(type, fn, false);
+		} else if (obj.detachEvent) {
+			obj.detachEvent(type, fn);
+		}
 	}
 };
