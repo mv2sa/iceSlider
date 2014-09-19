@@ -293,12 +293,13 @@ var iceSlider = {
 			}
 		};
 		this.adjustWidth = function() {
+			var i;
 			self.internal.wrapperPxSize = self.internal.wrapperQuery.offsetWidth;
 	    	self.internal.itemPxWidth = self.internal.wrapperPxSize * (self.itemSize/100);
-	    	for (var i; i < self.internal.itemQuery.length; i++) {
-	    		self.internal.itemQuery[i].style.width = self.internal.itemPxWidth;
+	    	for (i = 0; i < self.internal.itemQuery.length; i++) {
+	    		self.internal.itemQuery[i].style.width = self.internal.itemPxWidth + 'px';
 	    	}
-	        self.internal.containerQuery.style.width = self.internal.itemPxWidth*self.internal.itemCount;		
+	        self.internal.containerQuery.style.width = self.internal.itemPxWidth*self.internal.itemCount + 'px';		
         	if (self.onResizeCallback) {
 				self.onResizeCallback();
 			}
@@ -436,9 +437,9 @@ var iceSlider = {
 					}
 				}
 				if(removed === true) {
-					reInserted = "";
+					reInserted = '';
 					for (j=0; j < currentClassesArray.length; j++) {
-						reInserted = reInserted + " " + currentClassesArray[j];
+						reInserted = reInserted + ' ' + currentClassesArray[j];
 					}
 					obj[i].className = reInserted.trim();
 				}
