@@ -232,7 +232,7 @@ var iceSlider = {
 	        iceSlider.addClass(self.internal.containerQuery.querySelectorAll('.' + self.item)[self.internal.currentItem], self.itemActiveClass);
 	        if(self.dots) {
 	        	iceSlider.removeClass(self.dots.querySelectorAll('a'), self.dotActiveClass);
-	        	iceSlider.addClass(self.dots.querySelector('a')[self.internal.currentItem], self.dotActiveClass);
+	        	iceSlider.addClass(self.dots.querySelectorAll('a')[self.internal.currentItem], self.dotActiveClass);
 	        }
 	        if(self.leftArrow && self.internal.currentItem === 0) {
 	        	iceSlider.addClass(self.leftArrow, self.arrowInactiveClass);
@@ -410,7 +410,11 @@ var iceSlider = {
 					}
 				}
 				if (!classThere) {
-					obj[i].className = obj[i].className + ' ' + strClass;
+					if (obj[i].className === '') {
+						obj[i].className = strClass;
+					} else {
+						obj[i].className = obj[i].className + ' ' + strClass;
+					}
 				}
 			}
 		}
@@ -428,16 +432,15 @@ var iceSlider = {
 				for (j=0; j < currentClassesArray.length; j++) {
 					if(currentClassesArray[j] === strClass) {
 						removed = true;
-						console.log(currentClassesArray[j]);
 						currentClassesArray.splice(j, 1);
 					}
 				}
 				if(removed === true) {
 					reInserted = "";
 					for (j=0; j < currentClassesArray.length; j++) {
-						reInserted = reInserted + currentClassesArray[j];
+						reInserted = reInserted + " " + currentClassesArray[j];
 					}
-					obj[i].className = reInserted;
+					obj[i].className = reInserted.trim();
 				}
 				removed = false;
 			}
@@ -449,6 +452,7 @@ var iceSlider = {
 		for (var i = 0; i < prefixes.length; ++i) {
 			if (typeof tmp.style[prefixes[i]] != 'undefined'){
 				result = prefixes[i];
+				break;
 			} else {
 				result = null;
 			} 
@@ -460,7 +464,6 @@ var iceSlider = {
 	},
 	isNodeList : function(nodes) {
 	    var stringRepr = Object.prototype.toString.call(nodes);
-
 	    return typeof nodes === 'object' &&
 	        /^\[object (HTMLCollection|NodeList|Object)\]$/.test(stringRepr) &&
 	        nodes.hasOwnProperty('length') &&
