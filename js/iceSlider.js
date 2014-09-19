@@ -270,13 +270,15 @@ var iceSlider = {
 	    	}    	
 	    };
 	    this.widthController = function() {
+	    	var i;
 		    if((!self.desktop && iceSlider.pageWidth >= 768) && self.internal.isDesktop === false) {
 				self.internal.isDesktop = true;
 				if(self.autoSlide) {
 					clearInterval(self.internal.autoRun);
 				}
 				self.setContainerOffset(0, false);
-				for (var i; i < self.internal.itemQuery.length; i++) {
+				console.log(self.internal.wrapperQuery);
+				for (i = 0; i < self.internal.itemQuery.length; i++) {
 					self.internal.itemQuery[i].setAttribute('style', '');
 				}
 	        	self.internal.containerQuery.setAttribute('style', '');
