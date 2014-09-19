@@ -401,20 +401,24 @@ var iceSlider = {
 			obj = [obj];
 		}
 		for (i=0; i < obj.length; i++) {
-			classThere = false;
-			currentClassesArray = obj[i].className;
-			if (typeof currentClassesArray === 'string') {
-				currentClassesArray = currentClassesArray.split(' ');
-				for (j=0; j < currentClassesArray.length; j++) {
-					if(currentClassesArray[j] === strClass) {
-						classThere = true;
+			if (document.documentElement.classList) {
+				obj[i].classList.add(strClass);
+			} else {
+				classThere = false;
+				currentClassesArray = obj[i].className;
+				if (typeof currentClassesArray === 'string') {
+					currentClassesArray = currentClassesArray.split(' ');
+					for (j=0; j < currentClassesArray.length; j++) {
+						if(currentClassesArray[j] === strClass) {
+							classThere = true;
+						}
 					}
-				}
-				if (!classThere) {
-					if (obj[i].className === '') {
-						obj[i].className = strClass;
-					} else {
-						obj[i].className = obj[i].className + ' ' + strClass;
+					if (!classThere) {
+						if (obj[i].className === '') {
+							obj[i].className = strClass;
+						} else {
+							obj[i].className = obj[i].className + ' ' + strClass;
+						}
 					}
 				}
 			}
@@ -426,24 +430,28 @@ var iceSlider = {
 			obj = [obj];
 		}
 		for (i=0; i < obj.length; i++) {
-			removed = false;
-			currentClassesArray = obj[i].className;
-			if (typeof currentClassesArray === 'string') {
-				currentClassesArray = currentClassesArray.split(' ');
-				for (j=0; j < currentClassesArray.length; j++) {
-					if(currentClassesArray[j] === strClass) {
-						removed = true;
-						currentClassesArray.splice(j, 1);
-					}
-				}
-				if(removed === true) {
-					reInserted = '';
-					for (j=0; j < currentClassesArray.length; j++) {
-						reInserted = reInserted + ' ' + currentClassesArray[j];
-					}
-					obj[i].className = reInserted.trim();
-				}
+			if (document.documentElement.classList) {
+				obj[i].classList.remove(strClass);
+			} else {
 				removed = false;
+				currentClassesArray = obj[i].className;
+				if (typeof currentClassesArray === 'string') {
+					currentClassesArray = currentClassesArray.split(' ');
+					for (j=0; j < currentClassesArray.length; j++) {
+						if(currentClassesArray[j] === strClass) {
+							removed = true;
+							currentClassesArray.splice(j, 1);
+						}
+					}
+					if(removed === true) {
+						reInserted = '';
+						for (j=0; j < currentClassesArray.length; j++) {
+							reInserted = reInserted + ' ' + currentClassesArray[j];
+						}
+						obj[i].className = reInserted.trim();
+					}
+					removed = false;
+				}
 			}
 		}
 	},
