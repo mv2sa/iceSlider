@@ -346,32 +346,35 @@ var iceSlider = {
 			iceSlider.addClass(self.dots.firstChild, self.dotActiveClass);
 		};
 		this.update = function() {
+			var i;
 			if(!self.desktop && iceSlider.pageWidth < 768) {
-				self.internal.itemQuery =  $('> .' + self.item, '#' + self.wrapper + ' #' + self.container);
-				self.internal.itemCount =  self.internal.itemQuery.length;
-				self.internal.itemQuery.each(function(index) {
-					if($(this).hasClass(self.itemActiveClass)) {
-						self.internal.currentItem = index;
+				self.internal.itemQuery = self.internal.itemQuery =  self.internal.containerQuery.getElementsByClassName(self.item);
+				self.internal.itemCount = self.internal.itemQuery.length;
+				for (i = 0; i < self.internal.itemQuery.length; i++) {
+					if(iceSlider.hasClass(self.internal.itemQuery[i], self.itemActiveClass)) {
+						self.internal.currentItem = i;
+					} else {
+						self.internal.currentItem = 0;
 					}
-				});
+				}
 				if(self.dots) {
 					if (self.internal.itemCount === 1 && self.oneItemDotHide === true) {
-						self.dots.css('visibility', 'hidden');
+						self.dots.style.visibility = 'hidden';
 					} else if (self.internal.itemCount > 1 && self.oneItemDotHide === true) {
-						self.dots.css('visibility', 'visible');
+						self.dots.style.visibility = 'visible';
 					}
 					self.addDots();
 				}
 				self.widthController();
 				if(self.leftArrow && self.internal.currentItem === 0) {
-					self.leftArrow.addClass(self.arrowInactiveClass);
+					iceSlider.addClass(self.leftArrow, self.arrowInactiveClass);
 				} else {
-					self.leftArrow.removeClass(self.arrowInactiveClass);
+					iceSlider.removeClass(self.leftArrow, self.arrowInactiveClass);
 				}
 				if (self.leftArrow && self.internal.currentItem+1 === self.internal.itemCount) {
-					self.rightArrow.addClass(self.arrowInactiveClass);  			
+					iceSlider.addClass(self.rightArrow, self.arrowInactiveClass);			
 				} else {
-					self.rightArrow.removeClass(self.arrowInactiveClass);
+					iceSlider.removeClass(self.rightArrow, self.arrowInactiveClass);	
 				}
 				self.showPane(self.internal.currentItem, true);
 				if (self.onUpdateCallback) {
@@ -402,7 +405,7 @@ var iceSlider = {
 		}
 	},
 	addClass : function(obj, strClass) {
-		var currentClassesArray, classThere, i, j;
+		var currentClassesArray, i;
 		if (!iceSlider.isNodeList(obj)) {
 			obj = [obj];
 		}
@@ -410,21 +413,11 @@ var iceSlider = {
 			if (document.documentElement.classList) {
 				obj[i].classList.add(strClass);
 			} else {
-				classThere = false;
-				currentClassesArray = obj[i].className;
-				if (typeof currentClassesArray === 'string') {
-					currentClassesArray = currentClassesArray.split(' ');
-					for (j=0; j < currentClassesArray.length; j++) {
-						if(currentClassesArray[j] === strClass) {
-							classThere = true;
-						}
-					}
-					if (!classThere) {
-						if (obj[i].className === '') {
-							obj[i].className = strClass;
-						} else {
-							obj[i].className = obj[i].className + ' ' + strClass;
-						}
+				if (iceSlider.hasClass(obj[i], strClass)) {
+					if (obj[i].className === '') {
+						obj[i].className = strClass;
+					} else {
+						obj[i].className = obj[i].className + ' ' + strClass;
 					}
 				}
 			}
@@ -460,6 +453,23 @@ var iceSlider = {
 				}
 			}
 		}
+	},
+	hasClass : function (obj, strClass) {
+		var i, currentClassesArray;
+		if (document.documentElement.classList) {
+			return obj.classList.contains(strClass);
+		} else {
+			currentClassesArray = obj.className;
+			if (typeof currentClassesArray === 'string') {
+				currentClassesArray = currentClassesArray.split(' ');
+				for (i=0; i < currentClassesArray.length; i++) {
+					if(currentClassesArray[i] === strClass) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	},
 	checkVendorPrefix : function (prefixes) {
 		var tmp = document.createElement('div');
