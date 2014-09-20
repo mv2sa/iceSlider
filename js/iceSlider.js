@@ -133,7 +133,11 @@ var iceSlider = {
 		this.dotsEvent = function(event) {
 			event.preventDefault();
 			if(event.target !== event.currentTarget) {
-				var index = event.target.getAttribute('index');
+				if (event.target.nodeName === "SPAN") {
+					var index = event.target.parentNode.getAttribute('index');
+				} else {
+					var index = event.target.getAttribute('index');
+				}
 				if (index !== null || index !== '') {
 					self.internal.interaction = true;
 					self.showPane(index-1);				
