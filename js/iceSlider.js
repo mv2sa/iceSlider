@@ -347,7 +347,7 @@ var iceSlider = {
 		};
 		this.update = function() {
 			var i;
-			if(!self.desktop && iceSlider.pageWidth < 768) {
+			if((!self.desktop && iceSlider.pageWidth < 768) || self.desktop) {
 				self.internal.itemQuery = self.internal.itemQuery =  self.internal.containerQuery.getElementsByClassName(self.item);
 				self.internal.itemCount = self.internal.itemQuery.length;
 				for (i = 0; i < self.internal.itemQuery.length; i++) {
