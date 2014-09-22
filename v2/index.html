@@ -464,15 +464,15 @@ var slider1, slider2;
 $(document).ready(function() {
     slider1 = new iceSlider.hammerSlider({
         /* obrigatory */
-        wrapper : '#slider1Wrapper',
-        container : '#slider1Container', 
-        item : '.slider1Item', 
+        wrapper : 'slider1Wrapper',
+        container : 'slider1Container', 
+        item : 'slider1Item', 
         /* optionals */
         itemActiveClass : 'active',
-        leftArrow : '#slider1ArrowL',
-        rightArrow : '#slider1ArrowR',
+        leftArrow : 'slider1ArrowL',
+        rightArrow : 'slider1ArrowR',
         arrowInactiveClass : 'inactive',
-        dots : '#slider1Dots',
+        dots : 'slider1Dots',
         dotActiveClass : 'slider1-currentDot',
         autoSlide : true,
         setTime : 5000
@@ -481,9 +481,9 @@ $(document).ready(function() {
 
     slider2 = new iceSlider.hammerSlider({
         /* obrigatory */
-        wrapper : '#slider2Wrapper',
-        container : '#slider2Container', 
-        item : '.slider2Item', 
+        wrapper : 'slider2Wrapper',
+        container : 'slider2Container', 
+        item : 'slider2Item', 
         /* optionals */
         itemSize : 85,
         desktop : false,
