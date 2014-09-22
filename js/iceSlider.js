@@ -322,12 +322,12 @@ var iceSlider = {
 	            self.internal.containerQuery.style[iceSlider.cssTransformPrefix] = 'translate('+ percent +'%,0)';
 	        }
 	        else {
-	    //         var px = ((self.internal.itemPxWidth*self.internal.itemCount) / 100) * percent;
-	    //         if(animate){
-					// self.internal.containerQuery.dequeue(true).animate({left: px+'px'},300);
-	    //         } else {
-	    //         	self.internal.containerQuery.css('left', px+'px');
-	    //         }
+				var px = ((self.internal.itemPxWidth*self.internal.itemCount) / 100) * percent;
+	            if(animate && jQuery){
+					jQuery(self.internal.containerQuery).dequeue(true).animate({left: px+'px'},300);
+	            } else {
+	            	self.internal.containerQuery.style.left = px + 'px';
+	            }
 	            
 	        }
 	    };
