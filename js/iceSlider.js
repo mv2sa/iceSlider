@@ -9,6 +9,9 @@ var iceSlider = {
 	init : function() {
 		iceSlider.initialized = true;
 		iceSlider.addEvent(window, 'resize', iceSlider.getWindowWidth);
+		iceSlider.transitionsOk = iceSlider.css2DSupport('transition');
+		iceSlider.csstransformsOk = iceSlider.css2DSupport('transform');
+		iceSlider.csstransforms3dOk = iceSlider.css3DSupport();
 	},
 	getWindowWidth : function() {
 		iceSlider.pageWidth = window.innerWidth || document.documentElement.clientWidth;
@@ -73,7 +76,7 @@ var iceSlider = {
 				if(iceSlider.cssTransformPrefix === false) {
 					iceSlider.transformPrefix();
 				}
-			    if(Modernizr.csstransitions === false) {
+			    if(iceSlider.transitionsOk === false) {
 					self.animation = 'js';
 				}
 				if(self.dots) {
@@ -315,10 +318,10 @@ var iceSlider = {
 	        if(animate) {
 	        	iceSlider.addClass(self.internal.containerQuery, self.animationClass);
 	        }
-	        if((Modernizr.csstransforms3d && self.animation === 'auto') || (Modernizr.csstransforms3d && self.animation === 'CSS')) {
+	        if((iceSlider.csstransforms3dOk && self.animation === 'auto') || (iceSlider.csstransforms3dOk && self.animation === 'CSS')) {
 	            self.internal.containerQuery.style[iceSlider.cssTransformPrefix] = 'translate3d('+ percent +'%,0,0) scale3d(1,1,1)';
 	        }
-	        else if((Modernizr.csstransforms && self.animation === 'auto') || (Modernizr.csstransforms && self.animation === 'CSS')) {
+	        else if((iceSlider.csstransformsOk && self.animation === 'auto') || (iceSlider.csstransformsOk && self.animation === 'CSS')) {
 	            self.internal.containerQuery.style[iceSlider.cssTransformPrefix] = 'translate('+ percent +'%,0)';
 	        }
 	        else {
@@ -488,10 +491,51 @@ var iceSlider = {
 		iceSlider.cssTransformPrefix = iceSlider.checkVendorPrefix(['transform', 'msTransform', 'MozTransform', 'WebkitTransform', 'OTransform']);
 	},
 	isNodeList : function(nodes) {
+		// http://stackoverflow.com/questions/7238177/detect-htmlcollection-nodelist-in-javascript
 	    var stringRepr = Object.prototype.toString.call(nodes);
 	    return typeof nodes === 'object' &&
 	        /^\[object (HTMLCollection|NodeList|Object)\]$/.test(stringRepr) &&
 	        nodes.hasOwnProperty('length') &&
 	        (nodes.length === 0 || (typeof nodes[0] === 'object' && nodes[0].nodeType > 0));
+	},
+	css2DSupport : function(cssRule) {
+		// http://stackoverflow.com/questions/7264899/detect-css-transitions-using-javascript-and-without-modernizr
+	    var b = document.body || document.documentElement,
+	        s = b.style,
+	        p = cssRule;
+	    if (typeof s[p] == 'string') { 
+	    	return true; 
+	    }
+	    // Tests for vendor specific prop
+	    var v = ['Moz', 'webkit', 'Webkit', 'Khtml', 'O', 'ms'];
+	    p = p.charAt(0).toUpperCase() + p.substr(1);
+	    for (var i=0; i<v.length; i++) {
+	        if (typeof s[v[i] + p] == 'string') { 
+	        	return true; 
+	        }
+	    }
+	    return false;
+	},
+	css3DSupport : function () {
+		// https://gist.github.com/lorenzopolidori/3794226
+	    var el = document.createElement('p'),
+	    has3d,
+	    transforms = {
+	        'webkitTransform':'-webkit-transform',
+	        'OTransform':'-o-transform',
+	        'msTransform':'-ms-transform',
+	        'MozTransform':'-moz-transform',
+	        'transform':'transform'
+	    };
+	    // Add it to the body to get the computed style
+	    document.body.insertBefore(el, null);
+	    for(var t in transforms){
+	        if( el.style[t] !== undefined ){
+	            el.style[t] = 'translate3d(1px,1px,1px)';
+	            has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+	        }
+	    }
+	    document.body.removeChild(el);
+	    return (has3d !== undefined && has3d.length > 0 && has3d !== "none");
 	}
 };
